@@ -37,11 +37,12 @@ export default class Obj {
     ctx.arc(this.x, this.y, radius, sAngle, eAngle);
     ctx.stroke();
   };
-  Shadow(color,blur){
+  Shadow(color,blur,xshadow,yshadow){
     
     ctx.shadowBlur = blur;
     ctx.shadowColor = color;
-    
+    ctx.shadowOffsetX = xshadow;
+    ctx.shadowOffsetY = yshadow;
   }
 
    collide(hitX,hitY,hitW,hitH){
@@ -55,12 +56,12 @@ if(this.x<=this.hitX+this.hitW&&this.x+this.w>=this.hitX&&this.y+this.h>=this.hi
 
 }; 
 
-hudMsg(msgX,msgY,msgColor,msg){
+hudMsg(msgX,msgY,msgColor,fntSizefont,msg){
 this.msgX=msgX;
 this.msgY=msgY;
 this.msgColor=msgColor;
 ctx.save()
-ctx.font = "24px DePixel ";
+ctx.font = fntSizefont;
 ctx.fillStyle = msgColor;
 ctx.textAlign = "center";
 ctx.fillText(msg, this.msgX, this.msgY);
