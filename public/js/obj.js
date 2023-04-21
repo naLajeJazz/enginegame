@@ -6,6 +6,7 @@ export const ctx = canvas.getContext("2d");
 
 
 
+
 export default class Obj {
   constructor(x, y, w, h, spd) {
     this.x = x
@@ -89,7 +90,9 @@ SpriteAnime=(img,xIndex,yIndex)=>{
       ctx.drawImage(this.img,this.xTiles,this.yTiles,this.w,this.h,this.x,this.y,this.w,this.h); 
   
     };
+ 
 
+ 
 
 
 
