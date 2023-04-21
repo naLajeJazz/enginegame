@@ -18,6 +18,16 @@ export default class Obj {
     
 
   };
+  DrawLine(hitX,hitY){
+    ctx.save()
+    this.hitX=hitX
+    this.hitY=hitY
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.hitX, this.hitY);
+    ctx.stroke();
+    ctx.restore()
+  };
   Draw(color,alpha){
     ctx.save()
     this.color=color
@@ -27,15 +37,19 @@ export default class Obj {
     ctx.restore()
   };
   DrawRect(color,lineWidth){
+    
     ctx.beginPath();
     ctx.lineWidth =lineWidth;
     ctx.strokeStyle = color;
-    ctx.rect(this.x, this.y, this.w,this.h);
+    ctx.rect(this.x-this.w/2, this.y-this.h/2, this.w,this.h);
     ctx.stroke();
   };
-  DrawCicle(radius,sAngle,eAngle){
+  DrawCicle(radius,sAngle,eAngle,color,colorfill){
     ctx.beginPath();
     ctx.arc(this.x, this.y, radius, sAngle, eAngle);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = colorfill;
+    ctx.fill();
     ctx.stroke();
   };
   Shadow(color,blur,xshadow,yshadow){
