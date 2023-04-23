@@ -11,44 +11,36 @@ canvas.width=screen.width;
 canvas.height=screen.height+8;
 canvas.style.backgroundColor="black";
 
-////Objetos////
+                      ////Objetos////
 
-let txt=new Obj(canvas.width/2,canvas.height/2,800,800,0.5);
-setInterval(()=>txt.spd=-0.5 ,4000);
-setInterval(()=>txt.spd=0.5 ,8000);
-
+//debug
 let debug=new Obj(600,0),
     debugMode=false;
 
-
+//mouse
 let mouse=new Obj(0,0,64,64),
     click=false,
-    mouseMask=new Obj(mouse.x,mouse.y,mouse.w,mouse.h);
-    
+    mouseMaskStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h);
+///point  
 let point=new Obj(mouse.x,mouse.y,16,16,10),
-pointActive=false,
-pointMask=new Obj(point.x,point.y,point.w,point.h);
+    pointActive=false;
 
+//ship
 let ship=new Obj(400,400,32,32,0.1),
     engine=false,
     placaSolar=false,
     bateria=0,
-    cristalEnergy=100,
-    shipMask=new Obj(ship.x,ship.y,ship.w,ship.h);
+    barraBateria=new Obj(50,canvas.height-50,25,0),
+    btnPlacaSolar=new Obj(50,canvas.height-200,25,25),
+    shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
+    shipMaskStation=new Obj(ship.x,ship.y,ship.w,ship.h);
 
-let station= new Obj(600,600,64,64),
-    stationMask= new Obj(station.x,station.y,station.w,station.h)
-
-
-let tela=new Obj(0,0,canvas.width,canvas.height),
-barraBateria=new Obj(50,canvas.height-50,25,0),
-barraCristal=new Obj(150,canvas.height-50,25,0),
-btnPlacaSolar=new Obj(50,canvas.height-200,25,25),
-btnEngine=new Obj(150,canvas.height-200,25,25)
-/////////
+//station
+let station= new Obj(600,600,32,32),
+    stationMask= new Obj(station.x,station.y,station.w,station.h);
 
 
-////controles////
+                    ////controles////
 
 ////teclado
 
@@ -134,7 +126,7 @@ canvas.addEventListener('mouseover',function(){
                   
               },false);
                
-/////////
+
 
 ///anima Sprite
 let xIndex=0
@@ -145,146 +137,131 @@ setInterval(()=>xIndex=0,4000/animaSpd);//quando chegar na ultima imagem volta p
 
 
 
-/////Game Update
+                  /////Game//////
 
     
 function game (){
 requestAnimationFrame(game,canvas);
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
+
+                  /////Game Updates/////
+
 ///sistema placas solar e bateria
 if(placaSolar&&bateria<=100){bateria+=0.1;barraBateria.h-=0.1}else{placaSolar=false}
-barraCristal.h=-cristalEnergy
 
-///as mascaras de colisao sempre seguem os objetos
-shipMask.x=ship.x
-shipMask.y=ship.y
+
+///as mascaras de colisões sempre seguem os objetos
+
+//ship collitions masks
+shipMaskpoint.x=ship.x
+shipMaskpoint.y=ship.y
+shipMaskStation.x=ship.x
+shipMaskStation.y=ship.y
+
+//station collitions masks
 stationMask.x=station.x
 stationMask.y=station.y
-mouseMask.x=mouse.x
-mouseMask.y=mouse.y
-pointMask.x=point.x
-pointMask.y=point.y
 
-//
+//mouse collitions masks
+mouseMaskStation.x=mouse.x
+mouseMaskStation.y=mouse.y
+
+
+///Colisões
+//ship collitions check
+shipMaskpoint.collide(point.x,point.y,point.w,point.h)
+shipMaskStation.collide(station.x,station.y,station.w,station.h)
+
+//mouse collitions check
+mouseMaskStation.collide(station.x,station.y,station.w,station.h)
+
 
 ///pega a posiçao do point
-if(pointActive==true){
+if(pointActive){
 
   point.x=mouse.x
   point.y=mouse.y
 }
-//
-
-///mouse collitions
-ship.collide(mouse.x,mouse.y,mouse.w,mouse.h)   
-point.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-station.collide(mouse.x,mouse.y,mouse.w,mouse.h)  
-
-///point collitions
-shipMask.collide(point.x,point.y,point.w,point.h)  
-stationMask.collide(point.x,point.y,point.w,point.h)  
-mouseMask.collide(point.x,point.y,point.w,point.h)
- 
-///
-//station.collide(ship.x,ship.y,ship.w,ship.h)
-
-/*
-mouse.collide(station.x,station.y,station.w,station.h)  
-*/
-////draw
-
-ship.DrawCicle(8,0, 2 * Math.PI,"green",0,1)
 
 
-
-//station.DrawRect("blue")
-//station2.DrawRect("yellow")
-//point.DrawRect("green")
-point.DrawCicle(2,0, 2 * Math.PI,"green","green")
-
-if(placaSolar){
-  btnPlacaSolar.Draw("red",1)
-
-}else{btnPlacaSolar.Draw("red",0.2)}
-if (engine){
-  btnEngine.Draw("green",1)
-}else{btnEngine.Draw("green",0.2)}
-
-
-if(shipMask.collideBolean){
-
-  
-  
-  
-
-  //ship.DrawRect("red")
- 
+//executa interação da colisão ship/point
+if(shipMaskpoint.collideBolean){
   engine=false
-}else{
-  //ship.DrawRect("green")
-
-  
 }
+
+//executa interação da colisão ship/station
+if(shipMaskStation.collideBolean||mouseMaskStation.collideBolean){
+  
+  station.hudMsg(station.x+84,station.y+32,"blue","19px DePixel","Station 1")
+}
+
 ///mover na direçao indicada
-if (engine){ cristalEnergy-=0.001}
+
 if(engine&&!placaSolar&&bateria>=1){
 
-  ship.DrawLine(ship.x,ship.y,point.x,point.y,0.4)
+  ship.DrawLine(ship.x+16,ship.y+16,point.x+8,point.y+8,"green",1,0.5)
  
   if(ship.x<point.x){
    ship.x+=ship.spd
-   cristalEnergy-=0.001
+  
    bateria-=0.005
    barraBateria.h+=0.005
   }
   if(ship.x>point.x) {
     ship.x-=ship.spd
-    cristalEnergy-=0.001
+    
     bateria-=0.005
     barraBateria.h+=0.005
   } 
   
   if(ship.y>point.y){
    ship.y-=ship.spd
-   cristalEnergy-=0.001
+  
    bateria-=0.005
    barraBateria.h+=0.005
   }
   if(ship.y<point.y) {
     ship.y+=ship.spd
-    cristalEnergy-=0.001
+   
     bateria-=0.005
     barraBateria.h+=0.005
   } 
 
- 
-
 }
 
-//if(engine){barraBateria.h-=0.005}
+                        ////Draw
 
 
-  
+station.DrawRect("blue")
+ship.DrawRect("green")
+ship.hudMsg(ship.x+54,ship.y+32,"green","19px DePixel","ship")
+
+point.DrawRect("green")
+
+
+if(placaSolar){
+  btnPlacaSolar.Draw("green",1);
+  ship.DrawRect("green",4)
+
+}else{btnPlacaSolar.Draw("green",0.2)}
+
+
   
   ///hud sistem
-  barraBateria.Draw("red")
-  barraBateria.hudMsg(barraBateria.x+50,barraBateria.y,"red","19px DePixel",`${Math.floor(bateria)}%` )
-  barraBateria.hudMsg(barraBateria.x,barraBateria.y+16,"red","19px DePixel",`bateria` )
+  barraBateria.Draw("green")
+ 
+  barraBateria.hudMsg(barraBateria.x+8,barraBateria.y+16,"green","19px DePixel",`bateria ${Math.floor(bateria)}%` )
   
-  barraCristal.Draw("green")
-  barraCristal.hudMsg(barraCristal.x+50,barraCristal.y,"red","19px DePixel",`${Math.floor(cristalEnergy)}%` )
-  barraCristal.hudMsg(barraCristal.x,barraCristal.y+16,"red","19px DePixel",`cristal energy` )
-
-
+  
   
 
 if (debugMode){
 /*
   //mascaras de colisao
-  shipMask.DrawRect("red",2)
+  shipMaskpoint.DrawRect("red",2)
   stationMask.DrawRect("red",2)
-  mouseMask.DrawRect("red",2)
+  mouseMaskStation.DrawRect("red",2)
   pointMask.DrawRect("red",2)
  //
 */
@@ -305,9 +282,9 @@ station.collidebolean: ${station.collideBolean}
 `)
 debug.hudMsg(debug.x,debug.y+96,"white","19px DePixel",`
 point collides
-shipMask.collidebolean: ${shipMask.collideBolean}
+shipMaskpoint.collidebolean: ${shipMaskpoint.collideBolean}
 stationMask.collidebolean: ${stationMask.collideBolean}
-mouseMask.collidebolean: ${mouseMask.collideBolean}
+mouseMaskStation.collidebolean: ${mouseMaskStation.collideBolean}
 
 
 `)
@@ -339,7 +316,6 @@ distancex:${ Math.floor(ship.x-point.x)}
 distancey:${ Math.floor(ship.y-point.y)}
 ship.x:${Math.floor(ship.x) }
 ship.y:${Math.floor(ship.y)}
-cristalEnergy: ${Math.floor(cristalEnergy)}%
 aceleration: ${ship.spd}
 ship.collidebolean: ${ship.collideBolean}
 
