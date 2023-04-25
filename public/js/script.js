@@ -28,28 +28,30 @@ let point=new Obj(mouse.x,mouse.y,8,8,10),
     pointActive=false;
 
 //ship
-let ship=new Obj(400,400,32,32,0.07),
+let ship=new Obj(560,300,32,32,0.07),
     engine=false,
+    engineBtn=new Obj(550,canvas.height-116,32,32),
+    engineBtnMaskMouse=new Obj(engineBtn.x,engineBtn.y,engineBtn.w,engineBtn.h),
     fuel=0,
     fuelcharge=false,
-    fuelBtn=new Obj(250,canvas.height-116,32,32),
+    fuelBtn=new Obj(400,canvas.height-116,32,32),
     barraFuel=new Obj(130,canvas.height-50,25,0),
     fuelBtnMaskMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
     taxaAquecimentoEngine=0,
     engineaquecido=false,
-    localSpdBtn=new Obj(500,canvas.height-116,32,32),
+    localSpdBtn=new Obj(700,canvas.height-116,32,32),
     localSpdBtnMaskmouse=new Obj(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h),
     localSpd=false,
     placaSolar=false,
     reator=0,
     barrareator=new Obj(50,canvas.height-50,25,0),
-    placaSolarBtn=new Obj(350,canvas.height-116,32,32),
+    placaSolarBtn=new Obj(250,canvas.height-116,32,32),
     placaSolarBtnMaskMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
     shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
     shipMaskStation=new Obj(ship.x,ship.y,ship.w,ship.h),
     dockable=false,
     dock=false,
-    dockBtn=new Obj(600,canvas.height-116,32,32),
+    dockBtn=new Obj(900,canvas.height-116,32,32),
     dockBtnMaskMouse=new Obj(dockBtn.x,dockBtn.y,dockBtn.w,dockBtn.h);
 
 //station
@@ -201,6 +203,9 @@ fuelBtnMaskMouse.y=fuelBtn.y;
 dockBtnMaskMouse.x=dockBtn.x;
 dockBtnMaskMouse.y=dockBtn.y;
 
+//
+engineBtnMaskMouse.x=engineBtn.x;
+engineBtnMaskMouse.y=engineBtn.y;
 
 
 ///Colisões
@@ -220,6 +225,8 @@ placaSolarBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 fuelBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 dockBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
+//
+engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 
 
 
@@ -233,18 +240,23 @@ if(shipMaskpoint.collideBolean){
 
 //executa interação da colisão ship/station
 if(shipMaskStation.collideBolean||mouseMaskStation.collideBolean){
-  
+ 
   station.hudMsg(station.x+84,station.y+32,"green","19px DePixel","Station 1")
 }
 
 //
-if(shipMaskStation.collideBolean){dockable=true;}else{dockable=false;}
+if(shipMaskStation.collideBolean){
+  
+  dockable=true;
+}else{
+  dockable=false;
+}
 
 
                   
 ///sistema placas solar e reator
 if(placaSolar&&reator<=100){
-
+  ship.DrawRect("green",2)
   reator+=0.1;
   barrareator.h-=0.1;
 }else{
@@ -254,7 +266,7 @@ if(placaSolar&&reator<=100){
                   
 ///sistema fuel charge
 if(fuelcharge&&fuel<=100&&shipMaskStation.collideBolean){
-
+station.DrawLine(station.x+16,station.y+16,ship.x+16,ship.y+16,"orange",2)
   fuel+=0.1;
   barraFuel.h-=0.1;
 }else{
@@ -299,45 +311,82 @@ if (engine&&taxaAquecimentoEngine<=100){
 
 ///mover na direçao indicada
 
-if(localSpd&&!placaSolar&&reator>=1){
+if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
   ship.DrawLine(ship.x+16,ship.y+16,point.x+4,point.y+4,"green",1,0.4)
- 
+ if(localSpd){
   if(ship.x<point.x){
-    //ship.DrawLine(ship.x+16,ship.y+16,point.x+8,point.y+8,"green",1,0.2)
-   ship.x+=ship.spd
-  
-   barrareator.h+=0.005;
-   reator-=0.005;
-  
-  }
-  if(ship.x>point.x) {
-    //ship.DrawLine(ship.x+16,ship.y+16,point.x+8,point.y+8,"green",1,0.2)
-    ship.x-=ship.spd
- 
-    barrareator.h+=0.005;
-    reator-=0.005;
-  } 
-  
-  if(ship.y>point.y){
-   // ship.DrawLine(ship.x+16,ship.y+16,point.x+8,point.y+8,"green",1,0.2)
-   ship.y-=ship.spd
-  
    
-   barrareator.h+=0.005;
-   reator-=0.005;
-  }
-  if(ship.y<point.y) {
-    //ship.DrawLine(ship.x+16,ship.y+16,point.x+8,point.y+8,"green",1,0.2)
-    ship.y+=ship.spd
+    ship.x+=ship.spd
    
     barrareator.h+=0.005;
     reator-=0.005;
-  } 
+   
+   }
+   if(ship.x>point.x) {
+    
+     ship.x-=ship.spd
+  
+     barrareator.h+=0.005;
+     reator-=0.005;
+   } 
+   
+   if(ship.y>point.y){
+    
+    ship.y-=ship.spd
+   
+    
+    barrareator.h+=0.005;
+    reator-=0.005;
+   }
+   if(ship.y<point.y) {
+    
+     ship.y+=ship.spd
+    
+     barrareator.h+=0.005;
+     reator-=0.005;
+   } 
+ }
+  if(engine){
+    if(ship.x<point.x){
+   
+      ship.x+=ship.spd+0.2
+     
+      barraFuel.h+=0.03;
+      fuel-=0.03;
+     
+     }
+     if(ship.x>point.x) {
+      
+       ship.x-=ship.spd+0.2
+    
+       barraFuel.h+=0.03;
+       fuel-=0.03;
+     } 
+     
+     if(ship.y>point.y){
+      
+      ship.y-=ship.spd+0.2
+     
+      
+      barraFuel.h+=0.03;
+      fuel-=0.03;
+     }
+     if(ship.y<point.y) {
+      
+       ship.y+=ship.spd+0.2
+      
+       barraFuel.h+=0.03;
+       fuel-=0.03;
+     } 
+  }
 
-}else{localSpd=false}
+}else{
+  localSpd=false;
+  engine=false
+}
 
 
-///desliga botao engine
+///desliga botao localspd
 if(localSpdBtnMaskmouse.collideBolean&&click&&localSpd){
   pointActive=false
   localSpd=false;
@@ -345,8 +394,8 @@ if(localSpdBtnMaskmouse.collideBolean&&click&&localSpd){
   localSpdBtn.DrawRect("green",0.5)
   
 }else
-//liga botao engine
-if(localSpdBtnMaskmouse.collideBolean&&click){
+//liga botao localspd
+if(localSpdBtnMaskmouse.collideBolean&&click&&!dock&&!engine&&reator>=1){
   pointActive=false
   localSpd=true;
   localSpdBtn.Draw("green");
@@ -355,6 +404,25 @@ if(localSpdBtnMaskmouse.collideBolean&&click){
 
 if(localSpd){
   localSpdBtn.Draw("green")
+}
+///desliga botao engine
+if(engineBtnMaskMouse.collideBolean&&click&&engine){
+  pointActive=false
+  engine=false;
+  //localSpdBtn.DrawRect("green",0.1);
+  engineBtn.DrawRect("green",0.5)
+  
+}else
+//liga botao engine
+if(engineBtnMaskMouse.collideBolean&&click&&!dock&&!localSpd&&fuel>=1){
+  pointActive=false
+  engine=true;
+  engineBtn.Draw("green");
+  
+}
+
+if(engine){
+  engineBtn.Draw("green")
 }
 
 
@@ -385,14 +453,17 @@ if(fuelBtnMaskMouse.collideBolean&&click&&fuelcharge){
 //liga fuel charge
 if(fuelBtnMaskMouse.collideBolean&&click){
   pointActive=false
-  fuelcharge=true;
+  if(dock){
+
+    fuelcharge=true;
+  }
   //localSpdBtn.Draw("green");
   
 }
 
 
 ///desliga dock
-if(dockBtnMaskMouse.collideBolean&&click&&dockable){
+if(dockBtnMaskMouse.collideBolean&&click&&dock&&dockable){
   pointActive=false
   dock=false;
   //localSpdBtn.DrawRect("green",0.1);
@@ -400,10 +471,11 @@ if(dockBtnMaskMouse.collideBolean&&click&&dockable){
   
 }else
 //liga dock
-if(dockBtnMaskMouse.collideBolean&&click){
+if(dockBtnMaskMouse.collideBolean&&click&dockable){
+  
   pointActive=false
   dock=true;
-  //localSpdBtn.Draw("green");
+  
   
 }
 
@@ -434,11 +506,45 @@ station.DrawRect("green")
 ship.DrawRect("green")
 ship.hudMsg(ship.x+54,ship.y+32,"green","19px DePixel","ship")
 localSpdBtn.DrawRect("green",0.5)
-localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","19px DePixel","localSpd")
-placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+84,"green","19px DePixel","placa solar")
+engineBtn.DrawRect("green",0.5)
+
+
 point.DrawRect("green")
-dockBtn.DrawRect("green")
-dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","19px DePixel","dock")
+dockBtn.DrawRect("green",0.5)
+
+
+if(placaSolar){
+  placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+84,"green","19px DePixel",`placa solar:${placaSolar}`)
+}else{
+  placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+84,"green","19px DePixel",`placa solar:${placaSolar}`)
+}
+//
+if(localSpd){
+  localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","19px DePixel",`localspd:${localSpd}`)
+}else{
+  localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","19px DePixel",`localspd:${localSpd}`)
+}
+//
+if(dock){
+  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","19px DePixel",`dock:${dock}`)
+  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+64,"green","19px DePixel",`fuel pump:${dock}`)
+  station.DrawLine(station.x+19,station.y+19,ship.x+19,ship.y+19,"blue",2)
+}else{
+  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","19px DePixel",`dock:${dock}`)
+  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+64,"green","19px DePixel",`fuel pump:${dock}`)
+}
+//
+if(dockable){
+  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+64,"green","19px DePixel",`dockable:${dockable}`)
+}else{
+  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+64,"green","19px DePixel",`dockable:${dockable}`)
+}
+//
+if(engine){
+engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","19px DePixel",`engine:${engine}`)
+}else{
+  engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","19px DePixel",`engine:${engine}`)
+}
 
 
 
@@ -457,6 +563,13 @@ if(fuelcharge){
 }else{fuelBtn.DrawRect("orange",0.5)}
 
 
+if(dock&&dockable){
+  dockBtn.Draw("green",1);
+  
+
+}else{dockBtn.DrawRect("green",0.1)}
+
+
   
   ///hud sistem
   barrareator.Draw("green")
@@ -470,8 +583,12 @@ if(fuelcharge){
   }
 
 
-
-  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","19px DePixel","charge fuel")
+if(fuelcharge){
+  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","19px DePixel",`fuel charge:${fuelcharge}`)
+}else{
+  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","19px DePixel",`fuel charge:${fuelcharge}`)
+}
+  
 
   barraFuel.Draw("orange")
   if(fuel>0){
@@ -506,6 +623,7 @@ debug.hudMsg(debug.x,debug.y+32,"green","19px DePixel",`
 fuelbtnMaskMouse:${fuelBtnMaskMouse.collideBolean}
 dockable:${dockable}
 dock:${dock}
+enginebtncollidebolean:${engineBtnMaskMouse.collideBolean}
 
 `)
 
