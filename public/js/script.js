@@ -3,7 +3,7 @@ import Obj from './obj.js'
 import {canvas} from './obj.js'
 import {ctx} from './obj.js'
 
-import{mouseImg,spaceImg} from './Img.js'
+import{mouseImg,btnImg,shipImg,stationImg} from './Img.js'
 
 
  
@@ -28,7 +28,7 @@ let mouse=new Obj(0,0,64,64),
 
 
 //ship
-let ship=new Obj(560,300,32,32,0.07),
+let ship=new Obj(560,300,32,32,0.05),
     hudControl=false,
     logisticControl=new Obj(900,100,400,500),
     logisticControlBol=false,
@@ -158,8 +158,16 @@ canvas.addEventListener('mousemove',function(e){
                   
               },false);
 canvas.addEventListener('mousedown',function(){
-                  click=true
+                  
                   pointActive=true
+                 
+                 
+              },false);
+canvas.addEventListener('click',function(){
+                  click=true
+             setTimeout(() => {
+              click=false
+             }, 10);
                  
                  
               },false);
@@ -181,6 +189,13 @@ let yIndex=0
 let animaSpd=8//tem que ser multiplos de 2
 setInterval(()=>xIndex+=64,1000/animaSpd);//a cada segundo pula 64 px na imagem, quatro frames na horizontal
 setInterval(()=>xIndex=0,4000/animaSpd);//quando chegar na ultima imagem volta pra primeira
+
+///anima Sprite
+let xIndexShip=0
+let yIndexShip=0
+let animaSpdShip=4//tem que ser multiplos de 2
+setInterval(()=>yIndexShip+=64,1000/animaSpdShip);//a cada segundo pula 64 px na imagem, quatro frames na horizontal
+setInterval(()=>yIndexShip=0,2000/animaSpdShip);//quando chegar na ultima imagem volta pra primeira
 
 
 
@@ -262,6 +277,21 @@ engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 btnTestMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 
 
+if(placaSolarBtnMaskMouse.collideBolean||
+  fuelBtnMaskMouse.collideBolean||fuelBtnMaskMouse.collideBolean||
+  engineBtnMaskMouse.collideBolean||localSpdBtnMaskmouse.collideBolean||
+  dockBtnMaskMouse.collideBolean){
+  pointActive=false
+}
+ ///pega a posiçao do point
+ if(pointActive){
+  ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
+  point.x=mouse.x
+  point.y=mouse.y
+}
+
+
+
 
 
 //executa interação da colisão ship/point
@@ -288,7 +318,7 @@ if(shipMaskStation.collideBolean){
                   
 ///sistema placas solar e reator
 if(placaSolar&&reator<=100){
-  ship.DrawRect("green",3)
+  
   reator+=0.1;
   barrareator.h-=0.1;
 }else{
@@ -299,7 +329,7 @@ if(placaSolar&&reator<=100){
 ///sistema fuel charge
 if(fuelcharge&&fuel<=100&&shipMaskStation.collideBolean){
 station.DrawLine(station.x+16,station.y+16,ship.x+16,ship.y+16,"orange",1)
-ship.DrawRect("orange",3)
+
   fuel+=0.1;
   barraFuel.h-=0.1;
 }else{
@@ -308,39 +338,6 @@ ship.DrawRect("orange",3)
 }
 
 
-
-
-///aquecimento engine
-
-
-
-
-
-
-
-
-
-
-/*
-if(!engine&&taxaAquecimentoEngine>=100){
-  engineaquecido=true;
- 
- }
-if(engineaquecido){
- taxaAquecimentoEngine-=0.1;
- barraFuel.h+=0.1;
-}
-
-
-if (engine&&taxaAquecimentoEngine<=100){
-  taxaAquecimentoEngine+=0.1;
-    barraFuel.h-=0.1;
-    
-  }else{
-    engine=false; 
-  }
-  */
-  
 
 ///mover na direçao indicada
 
@@ -419,109 +416,107 @@ if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
 }
 
 
-  ///pega a posiçao do point
-  if(pointActive&&!hudControl){
-    ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
-    point.x=mouse.x
-    point.y=mouse.y
-  }
-
- // space.Sprite(spaceImg,canvas.width,canvas.height)
+ 
+ // space.Sprite(btnImg,canvas.width,canvas.height)
 
                                      
 ///mapa navegação          
 point.DrawCicle(8,0,2 * Math.PI,"green","#000000")
-station.DrawRect("green")
-station.DrawCicle(4,0,2 * Math.PI,"green","green")
+
+
+
 station.hudMsg(station.x+64,station.y+32,"green","16px DePixel","Station 1")
-ship.DrawRect("green")
-ship.DrawCicle(2,0,2 * Math.PI,"green","green")
+station.SpriteAnime(stationImg,0,0)
+
 ship.hudMsg(ship.x+54,ship.y+32,"green","16px DePixel","ship")
-
-
-if(hudControl){
+ship.SpriteAnime(shipImg,0,yIndexShip)
 
 
 
+ 
 ///desliga botao localspd
 if(localSpdBtnMaskmouse.collideBolean&&click&&localSpd){
-  pointActive=false
-  localSpd=false;
-  localSpdBtn.DrawRect("green",0.5)
-  
+ localSpd=false;  
 }else
 //liga botao localspd
 if(localSpdBtnMaskmouse.collideBolean&&click&&!dock&&!engine&&reator>=1){
-  pointActive=false
-  localSpd=true;
-  localSpdBtn.Draw("green");
-  
-}
+  localSpd=true; 
+} 
 
 if(localSpd){
-  localSpdBtn.Draw("green")
+  localSpdBtn.SpriteAnime(btnImg,0,yIndex+64)
+}else{
+  localSpdBtn.SpriteAnime(btnImg,0,yIndex)
 }
+
+
+
 ///desliga botao engine
+
 if(engineBtnMaskMouse.collideBolean&&click&&engine){
-  pointActive=false
-  engine=false;
-  //localSpdBtn.DrawRect("green",0.1);
-  engineBtn.DrawRect("orange",0.5)
-  
+ engine=false;  
 }else
 //liga botao engine
 if(engineBtnMaskMouse.collideBolean&&click&&!dock&&!localSpd&&fuel>=1){
-  pointActive=false
-  engine=true;
-  engineBtn.Draw("orange");
-  
+  engine=true; 
 }
 
 if(engine){
-  engineBtn.Draw("orange")
+  engineBtn.SpriteAnime(btnImg,0,yIndex+64)
+}else{
+  engineBtn.SpriteAnime(btnImg,0,yIndex)
 }
 
 
 
 ///desliga placa solar
+
 if(placaSolarBtnMaskMouse.collideBolean&&click&&placaSolar){
-  pointActive=false
-  placaSolar=false;
-  //localSpdBtn.DrawRect("green",0.1);
-  //localSpdBtn.DrawRect("green",0.5)
-  
+ placaSolar=false; 
 }else
 //liga placa solar
 if(placaSolarBtnMaskMouse.collideBolean&&click){
-  pointActive=false
-  placaSolar=true;
-  //localSpdBtn.Draw("green");
-  
+  placaSolar=true; 
 }
+if(placaSolar){
+  placaSolarBtn.SpriteAnime(btnImg,0,yIndex+64);
+}else{
+  placaSolarBtn.SpriteAnime(btnImg,0,yIndex);
+}
+
+
 ///desliga fuel charge
+
 if(fuelBtnMaskMouse.collideBolean&&click&&fuelcharge){
   pointActive=false
   fuelcharge=false;
+  
 
 }else
 //liga fuel charge
 if(fuelBtnMaskMouse.collideBolean&&click){
   pointActive=false
+  
   if(dock){
 
     fuelcharge=true;
+    
   }
-
   
+}
+if(fuelcharge){
+  fuelBtn.SpriteAnime(btnImg,0,yIndex+64);
+}else{
+  fuelBtn.SpriteAnime(btnImg,0,yIndex);
 }
 
 
 ///desliga dock
+
 if(dockBtnMaskMouse.collideBolean&&click&&dock&&dockable){
   pointActive=false
   dock=false;
-  //localSpdBtn.DrawRect("green",0.1);
-  //localSpdBtn.DrawRect("green",0.5)
+  
   
 }else
 //liga dock
@@ -529,36 +524,19 @@ if(dockBtnMaskMouse.collideBolean&&click&dockable){
   
   pointActive=false
   dock=true;
+
   
-  
+}
+if(dock){
+  dockBtn.SpriteAnime(btnImg,0,yIndex+64);
+}else{
+  dockBtn.SpriteAnime(btnImg,0,yIndex);
 }
 
 
 
 
 
-
-
-
-
-
-//btnTest.Draw("white",0.5)
-
-
-//btnTest.hudMsg(btnTest.x+100,btnTest.y+50,"white","19px DePixel",`1${btnTestMaskMouse.collideBolean}2${btnTestBol}`)                    
-
-
-if(btnTestMaskMouse.collideBolean&&click&&!btnTestBol){
-  btnTestBol=true
-  btnTest.Draw("red",0.5)
-}
-
-
-
-if(btnTestMaskMouse.collideBolean&&click&&btnTestBol){
-  btnTestBol=false
-  btnTest.Draw("blue",0.5)
-}
 
 
 
@@ -571,13 +549,7 @@ if(btnTestMaskMouse.collideBolean&&click&&btnTestBol){
 
  // cockpit.Sprite(cockpitImg,canvas.width,canvas.height)
 
-localSpdBtn.DrawRect("green",0.5)
-engineBtn.DrawRect("orange",0.5)
 
-
-
-
-dockBtn.DrawRect("blue",0.5)
 
 
 
@@ -615,29 +587,6 @@ engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","19px DePixel",`engine:${
 }
 
 
-
-if(placaSolar){
-  placaSolarBtn.Draw("green",1);
- 
-
-}else{placaSolarBtn.DrawRect("green",0.5)}
-
-
-  
-if(fuelcharge){
-  fuelBtn.Draw("orange",1);
-  
-
-}else{fuelBtn.DrawRect("orange",0.5)}
-
-
-if(dock&&dockable){
-  dockBtn.Draw("blue",1);
-  
-
-}else{dockBtn.DrawRect("blue",0.1)}
-
-
   
   ///hud sistem
 
@@ -669,9 +618,7 @@ if(dock&&dockable){
   }else{
     fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","19px DePixel",`fuel charge:${fuelcharge}`)
   }
-    
-}
-  
+
 
 //
 if(logisticControlBol){
@@ -695,26 +642,26 @@ if (debugMode){
 shipMaskpoint.DrawRect("red",2);
 
 debug.hudMsg(debug.x,debug.y+16,"green","19px DePixel",`
-mouse.x: ${mouse.x}
-mouse.y: ${mouse.y} 
-click: ${click}
-pointActive: ${pointActive}
-hudControl: ${hudControl }
-angineaquecido: ${engineaquecido }
+mouse.x: ${mouse.x}    
+mouse.y: ${mouse.y}     
+click: ${click}    
+pointActive: ${pointActive}    
+hudControl: ${hudControl }    
+angineaquecido: ${engineaquecido }    
 
 
 `)
-debug.hudMsg(debug.x,debug.y+32,"green","19px DePixel",`
-fuelbtnMaskMouse:${fuelBtnMaskMouse.collideBolean}
-dockable:${dockable}
-dock:${dock}
-enginebtncollidebolean:${engineBtnMaskMouse.collideBolean}
+debug.hudMsg(debug.x,debug.y+38,"green","19px DePixel",`
+fuelbtnMaskMouse:${fuelBtnMaskMouse.collideBolean}    
+dockable:${dockable}    
+dock:${dock}    
+enginebtncollidebolean:${engineBtnMaskMouse.collideBolean}    
 
 `)
 
 point.hudMsg(point.x,point.y-32,"green","18px DePixel",`
-point.x: ${point.x}
-point.y: ${point.y}
+point.x: ${point.x}   
+point.y: ${point.y}   
 
 `)
 
@@ -723,16 +670,16 @@ point.y: ${point.y}
 ////Hud
 ship.hudMsg(ship.x,ship.y-64,"green","18px DePixel",`
 
-localSpd: ${localSpd}
-aceleration: ${ship.spd}`
+localSpd: ${localSpd}   
+aceleration: ${ship.spd}   `
 )
 ship.hudMsg(ship.x,ship.y-32,"green","18px DePixel",`
-distancex:${ Math.floor(ship.x-point.x)}
-distancey:${ Math.floor(ship.y-point.y)}
-ship.x:${Math.floor(ship.x) }
-ship.y:${Math.floor(ship.y)}
+distancex:${ Math.floor(ship.x-point.x)}   
+distancey:${ Math.floor(ship.y-point.y)}   
+ship.x:${Math.floor(ship.x) }   
+ship.y:${Math.floor(ship.y)}   
 
-ship.collidebolean: ${ship.collideBolean}
+ship.collidebolean: ${ship.collideBolean}   
 
 `)
 
