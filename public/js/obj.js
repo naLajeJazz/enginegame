@@ -53,7 +53,7 @@ export default class Obj {
   };
   DrawCicle(radius,sAngle,eAngle,color,colorfill,alpha){
     ctx.beginPath();
-    ctx.arc(this.x+16, this.y+16, radius, sAngle, eAngle);
+    ctx.arc(this.x, this.y, radius, sAngle, eAngle);
     ctx.strokeStyle = color;
     ctx.globalAlpha = alpha;
     ctx.fillStyle = colorfill;

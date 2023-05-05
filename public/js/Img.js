@@ -4,7 +4,7 @@ let mouseImg = document.createElement("IMG");
 mouseImg.setAttribute("src","./assets/spPointer.png");
 
 let spaceImg = document.createElement("IMG");
-spaceImg.setAttribute("src","./assets/space.jpg");
+spaceImg.setAttribute("src","./assets/space.png");
 
 let btnImg = document.createElement("IMG");
 btnImg.setAttribute("src","./assets/btnOnOff.png");
@@ -15,12 +15,22 @@ shipImg.setAttribute("src","./assets/ship.png");
 let stationImg = document.createElement("IMG");
 stationImg.setAttribute("src","./assets/station.png");
 
+let pointImg = document.createElement("IMG");
+pointImg.setAttribute("src","./assets/point.png");
+
+let cockpitImg = document.createElement("IMG");
+cockpitImg.setAttribute("src","./assets/cockpit.png");
+
+
 
 
 export {
                   mouseImg,
                   btnImg,
                   shipImg,
-                  stationImg
+                  stationImg,
+                  pointImg,
+                  spaceImg,
+                  cockpitImg
         
 }
