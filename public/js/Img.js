@@ -21,6 +21,9 @@ pointImg.setAttribute("src","./assets/point.png");
 let cockpitImg = document.createElement("IMG");
 cockpitImg.setAttribute("src","./assets/cockpit.png");
 
+let monitorImg = document.createElement("IMG");
+monitorImg.setAttribute("src","./assets/monitor.png");
+
 
 
 
@@ -31,6 +34,7 @@ export {
                   stationImg,
                   pointImg,
                   spaceImg,
-                  cockpitImg
+                  cockpitImg,
+                  monitorImg
         
 }

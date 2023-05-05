@@ -3,7 +3,7 @@ import Obj from './obj.js'
 import {canvas} from './obj.js'
 import {ctx} from './obj.js'
 
-import{mouseImg,btnImg,shipImg,stationImg,pointImg,spaceImg,cockpitImg} from './Img.js'
+import{mouseImg,btnImg,shipImg,stationImg,pointImg,spaceImg,cockpitImg,monitorImg} from './Img.js'
 
 
  
@@ -15,7 +15,8 @@ canvas.style.backgroundColor="black";
 
 
 let space=new Obj(0,0,canvas.width,canvas.height),
-    cockpit=new Obj(0,0,canvas.width,canvas.height);
+    cockpit=new Obj(0,0,canvas.width,canvas.height),
+    monitor=new Obj(64,460,364,300);
 //debug
 let debug=new Obj(600,0),
     debugMode=false;
@@ -30,7 +31,7 @@ let mouse=new Obj(0,0,64,64),
 
 //ship
 let ship=new Obj(560,300,32,32,0.05),
-    hudControl=false,
+    hudControl=true,
     logisticControl=new Obj(900,100,400,500),
     logisticControlBol=false,
     engine=false,
@@ -40,7 +41,7 @@ let ship=new Obj(560,300,32,32,0.05),
     fuel=0,
     fuelcharge=false,
     fuelBtn=new Obj(cockpit.x+550,cockpit.h/2,64,64),
-    barraFuel=new Obj(330,canvas.height-50,48,0),
+    barraFuel=new Obj(300,canvas.height-76,48,0),
     fuelBtnMaskMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
     engineaquecido=false,
     localSpdBtn=new Obj(cockpit.x+800,cockpit.h/2,64,64),
@@ -48,7 +49,7 @@ let ship=new Obj(560,300,32,32,0.05),
     localSpd=false,
     placaSolar=false,
     reator=0,
-    barrareator=new Obj(cockpit.x+250,cockpit.h-50,48,0),
+    barrareator=new Obj(cockpit.x+232,cockpit.h-76,48,0),
     placaSolarBtn=new Obj(cockpit.x+450,cockpit.h/2,64,64),
     placaSolarBtnMaskMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
     shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
@@ -279,6 +280,10 @@ engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 btnTestMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 
+
+
+
+
 if(hudControl){
 
 
@@ -298,6 +303,8 @@ if(placaSolarBtnMaskMouse.collideBolean||
   point.x=mouse.x
   point.y=mouse.y
 }
+  
+
 
 
 
@@ -429,7 +436,7 @@ if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
  
 
                                      
-space.Sprite(spaceImg,canvas.width,canvas.height); 
+space.Sprite(monitorImg,canvas.width,canvas.height); 
 
 
 point.SpriteAnime(pointImg,0,0);
@@ -441,14 +448,14 @@ station.SpriteAnime(stationImg,0,0);
 ship.hudMsg(ship.x+54,ship.y+32,"green","16px DePixel","ship");
 ship.SpriteAnime(shipImg,0,yIndexShip)
 
-
+ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
 
 
 if(hudControl){
 
 
   cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
-
+  monitor.Sprite(monitorImg,316,290)
 
  
 
@@ -612,9 +619,9 @@ engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine:${
  
 
   if(reator>0){
-    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"green","16px DePixel",`reator ${Math.floor(reator)}%` )
+    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"green","16px DePixel",`reator ${Math.floor(reator/2)}%` )
   } if(reator<1) {
-    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"red","16px DePixel",`reator ${Math.floor(reator)}%` )
+    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"red","16px DePixel",`reator ${Math.floor(reator/2)}%` )
   }
 
 
@@ -623,14 +630,14 @@ engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine:${
 
   
 
-  barraFuel.Draw("orange")
+  barraFuel.Draw("orange",0.5)
   if(fuel>0){
-    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"green","16px DePixel",`fuel ${Math.floor(fuel)}%` )
+    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"green","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
   } if(fuel<1){
-    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"red","16px DePixel",`fuel ${Math.floor(fuel)}%` )
+    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"red","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
   }
   
-  barrareator.Draw("green")
+  barrareator.Draw("green",0.5)
   if(fuelcharge){
     fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+104,"green","14px DePixel",`fuel charge:${fuelcharge}`)
   }else{
