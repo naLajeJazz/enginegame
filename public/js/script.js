@@ -3,7 +3,14 @@ import Obj from './obj.js'
 import {canvas} from './obj.js'
 import {ctx} from './obj.js'
 
-import{mouseImg,btnImg,shipImg,stationImg,pointImg,spaceImg,cockpitImg,monitorImg} from './Img.js'
+import{mouseImg,
+       btnImg,
+       shipImg,
+       stationImg,
+       pointImg,
+       cockpitImg,
+       monitorImg,
+       hudControlBtnImg} from './Img.js'
 
 
  
@@ -14,9 +21,11 @@ canvas.style.backgroundColor="black";
                       ////Objetos////
 
 
-let space=new Obj(0,0,canvas.width,canvas.height),
+let navigation=new Obj(0,0,canvas.width,canvas.height),
     cockpit=new Obj(0,0,canvas.width,canvas.height),
-    monitor=new Obj(64,360,216,274);
+    monitorStatus1=new Obj(64,330,216,274),
+    monitorStatus2=new Obj(332,64,490,300),
+    hudControlBtn=new Obj(canvas.width/2,canvas.height/2,32,32);
 //debug
 let debug=new Obj(600,0),
     debugMode=false;
@@ -35,21 +44,21 @@ let ship=new Obj(560,300,32,32,0.05),
     logisticControl=new Obj(900,100,400,500),
     logisticControlBol=false,
     engine=false,
-    engineBtn=new Obj(cockpit.x+700,cockpit.h/2,64,64),
+    engineBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+400,64,64),
     engineBtnMaskMouse=new Obj(engineBtn.x,engineBtn.y,engineBtn.w,engineBtn.h),
     engineSpd=0.2,
     fuel=0,
     fuelcharge=false,
-    fuelBtn=new Obj(monitor.x+120,monitor.h+380,64,64),
-    barraFuel=new Obj(monitor.x+120,monitor.h+320,48,0),
+    fuelBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+340,32,32),
+    barraFuel=new Obj(monitorStatus1.x+120,monitorStatus1.h+290,48,0),
     fuelBtnMaskMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
-    localSpdBtn=new Obj(cockpit.x+800,cockpit.h/2,64,64),
+    localSpdBtn=new Obj(monitorStatus1.x+48,monitorStatus1.h+400,64,64),
     localSpdBtnMaskmouse=new Obj(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h),
     localSpd=false,
     placaSolar=false,
     reator=0,
-    barrareator=new Obj(monitor.x+48,monitor.h+320,48,0),
-    placaSolarBtn=new Obj(monitor.x+28,monitor.h+380,64,64),
+    barrareator=new Obj(monitorStatus1.x+48,monitorStatus1.h+290,48,0),
+    placaSolarBtn=new Obj(monitorStatus1.x+48,monitorStatus1.h+340,32,32),
     placaSolarBtnMaskMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
     shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
     shipMaskStation=new Obj(ship.x,ship.y,ship.w,ship.h),
@@ -68,7 +77,7 @@ let station= new Obj(600,300,32,32),
 
 
 
-let btnTest=new Obj(100,100,64,64),btnTestMaskMouse=new Obj(100,100,64,64),btnTestBol=false;
+
 
                     ////controles////
 
@@ -249,9 +258,6 @@ dockBtnMaskMouse.y=dockBtn.y;
 engineBtnMaskMouse.x=engineBtn.x;
 engineBtnMaskMouse.y=engineBtn.y;
 
-//
-btnTestMaskMouse.x=btnTest.x;
-btnTestMaskMouse.y=btnTest.y;
 
 
 ///Colisões
@@ -275,12 +281,9 @@ dockBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
-btnTestMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
+hudControlBtn.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 
-
-
-
-if(hudControl){
+if(hudControl||hudControlBtn.collideBolean){
   pointActive=false
 }
 
@@ -329,7 +332,7 @@ if(placaSolar&&reator<=200){
                   
 ///sistema fuel charge
 if(fuelcharge&&fuel<=200&&shipMaskStation.collideBolean){
-station.DrawLine(station.x+16,station.y+16,ship.x+16,ship.y+16,"orange",1)
+
 
   fuel+=0.1;
   barraFuel.h-=0.1;
@@ -417,11 +420,11 @@ if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
 };
 
 
- 
+let dis=  Math.floor(Math.abs(point.x-ship.x) + Math.abs(point.y-ship.y))    
  
 
                                      
-space.Sprite(monitorImg,canvas.width,canvas.height); 
+navigation.Sprite(monitorImg,canvas.width,canvas.height); 
 
 point.SpriteAnime(pointImg,0,0);
 
@@ -433,13 +436,39 @@ ship.SpriteAnime(shipImg,0,yIndexShip)
 ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
 
 
+
+
+
+if(hudControlBtn.collideBolean&&click&&!hudControl){
+  
+  hudControl=true
+  
+ }else if(hudControlBtn.collideBolean&&click&&hudControl){
+  hudControl=false
+ }
+if(hudControl){
+  hudControlBtn.y=canvas.height-canvas.height+16
+
+}else{
+  hudControlBtn.y=canvas.height-74
+  hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex+64)
+}
+
+//////////////////
 if(hudControl){
 
 
+ 
+  
   cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
-  monitor.Sprite(monitorImg,monitor.w,monitor.h)
+  monitorStatus1.Sprite(monitorImg,monitorStatus1.w,monitorStatus1.h);
+  monitorStatus2.Sprite(monitorImg,monitorStatus2.w,monitorStatus2.h);
+ 
+  hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex)
 
  
+
+
 
 ///desliga botao localspd
 if(localSpdBtnMaskmouse.collideBolean&&click&&localSpd){
@@ -543,67 +572,51 @@ if(dock){
 
                         ////Draw
   
-
-
-if(placaSolar){
-  placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+84,"green","14px DePixel",`placa solar:${placaSolar}`)
-}else{
-  placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+84,"green","14px DePixel",`placa solar:${placaSolar}`)
-}
-//
+let thrustpower=0
 if(localSpd){
-  localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","14px DePixel",`localspd:${localSpd}`)
-}else{
-  localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","14px DePixel",`localspd:${localSpd}`)
+  thrustpower=ship.spd
+}else if(engine){
+  thrustpower=engineSpd
 }
-//
-if(dock){
-  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+104,"green","14px DePixel",`dock:${dock}`)
-  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","14px DePixel",`fuel pump:${dock}`)
-  station.DrawLine(station.x+19,station.y+19,ship.x+19,ship.y+19,"blue",1)
-}else{
-  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+104,"green","14px DePixel",`dock:${dock}`)
-  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+84,"green","14px DePixel",`fuel pump:${dock}`)
-}
-//
-if(dockable){
-  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","14px DePixel",`dockable:${dockable}`)
-}else{
-  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","14px DePixel",`dockable:${dockable}`)
-}
-//
-if(engine){
-engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine:${engine}`)
-}else{
-  engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine:${engine}`)
-}
+let monitorFontColor="orange"
+monitorStatus2.hudMsg(monitorStatus2.x+140,monitorStatus2.y+64,monitorFontColor,"22px Courier New",`status: normal`)
+monitorStatus2.hudMsg(monitorStatus2.x+116,monitorStatus2.y+100,monitorFontColor,"18px Courier New",`dinstance:[${dis}] `)
+monitorStatus2.hudMsg(monitorStatus2.x+300,monitorStatus2.y+100,monitorFontColor,"18px Courier New",`thrust power:[${thrustpower} %]`)
+monitorStatus2.hudMsg(monitorStatus2.x+184,monitorStatus2.y+132,monitorFontColor,"18px Courier New",`solar panel charge:[${placaSolar}]`)
+monitorStatus2.hudMsg(monitorStatus2.x+174,monitorStatus2.y+164,monitorFontColor,"18px Courier New",`fuel pump charge:[${fuelcharge}]`)
+monitorStatus2.hudMsg(monitorStatus2.x+132,monitorStatus2.y+196,monitorFontColor,"18px Courier New",`dockable:[${dockable}]`)
+monitorStatus2.hudMsg(monitorStatus2.x+300,monitorStatus2.y+196,monitorFontColor,"18px Courier New",`dock:[${dock}]`)
+
+
+
+
+  placaSolarBtn.hudMsg(placaSolarBtn.x+32,placaSolarBtn.y+44,"green","14px DePixel",`placa solar`)
+  localSpdBtn.hudMsg(localSpdBtn.x+32,localSpdBtn.y+84,"green","14px DePixel",`localspd`)
+  fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+44,"green","14px DePixel",`fuel charger`)
+  engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine`)
+  dockBtn.hudMsg(dockBtn.x+32,dockBtn.y+84,"green","14px DePixel",`dock`)
 
 
   
   ///hud sistem
 
   if(reator>0){
-    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"green","16px DePixel",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"green","16px Courier New",`reator ${Math.floor(reator/2)}%` )
   } if(reator<1) {
-    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"red","16px DePixel",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"red","16px Courier New",`reator ${Math.floor(reator/2)}%` )
   }
 
 
 
   barraFuel.Draw("orange",0.5)
   if(fuel>0){
-    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"green","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"green","16px Courier New",`fuel ${Math.floor(fuel/2)}%` )
   } if(fuel<1){
-    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"red","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"red","16px Courier New",`fuel ${Math.floor(fuel/2)}%` )
   }
   
   barrareator.Draw("green",0.5)
-  if(fuelcharge){
-    fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+104,"green","14px DePixel",`fuel charge:${fuelcharge}`)
-  }else{
-    fuelBtn.hudMsg(fuelBtn.x+32,fuelBtn.y+104,"green","14px DePixel",`fuel charge:${fuelcharge}`)
-  }
-
+  
 
 //
 if(logisticControlBol){
@@ -627,13 +640,15 @@ fuelBtn.DrawRect("red",2)
 engineBtn.DrawRect("red",2)
 localSpdBtn.DrawRect("red",2)
 dockBtn.DrawRect("red",2)
+hudControlBtn.DrawRect("red",2)
 
 debug.hudMsg(debug.x,debug.y+16,"orange","19px DePixel",`
 mouse.x: ${mouse.x}    
 mouse.y: ${mouse.y}     
 click: ${click}    
 pointActive: ${pointActive}    
-hudControl: ${hudControl }    
+hudControl: ${hudControl }       
+hudControlcollide: ${hudControlBtn.collideBolean }    
    
 
 
@@ -668,7 +683,7 @@ distancex:${ Math.floor(ship.x-point.x)}
 distancey:${ Math.floor(ship.y-point.y)}   
 ship.x:${Math.floor(ship.x) }   
 ship.y:${Math.floor(ship.y)}   
-
+distance=${ dis }
 ship.collidebolean: ${ship.collideBolean}   
 
 `)

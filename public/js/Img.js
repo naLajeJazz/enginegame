@@ -24,6 +24,9 @@ cockpitImg.setAttribute("src","./assets/cockpit.png");
 let monitorImg = document.createElement("IMG");
 monitorImg.setAttribute("src","./assets/monitor.png");
 
+let hudControlBtnImg = document.createElement("IMG");
+hudControlBtnImg.setAttribute("src","./assets/hudControlBtn.png");
+
 
 
 
@@ -35,6 +38,7 @@ export {
                   pointImg,
                   spaceImg,
                   cockpitImg,
-                  monitorImg
+                  monitorImg,
+                  hudControlBtnImg
         
 }
