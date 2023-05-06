@@ -16,13 +16,13 @@ canvas.style.backgroundColor="black";
 
 let space=new Obj(0,0,canvas.width,canvas.height),
     cockpit=new Obj(0,0,canvas.width,canvas.height),
-    monitor=new Obj(64,460,364,300);
+    monitor=new Obj(64,360,216,274);
 //debug
 let debug=new Obj(600,0),
     debugMode=false;
 
 //mouse
-let mouse=new Obj(0,0,64,64),
+let mouse=new Obj(0,0,32,32),
     click=false,
     mouseMaskStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h),
     mouseMasklocalSpdBtn=new Obj(mouse.x,mouse.y,mouse.w,mouse.h)
@@ -40,17 +40,16 @@ let ship=new Obj(560,300,32,32,0.05),
     engineSpd=0.2,
     fuel=0,
     fuelcharge=false,
-    fuelBtn=new Obj(cockpit.x+550,cockpit.h/2,64,64),
-    barraFuel=new Obj(300,canvas.height-76,48,0),
+    fuelBtn=new Obj(monitor.x+120,monitor.h+380,64,64),
+    barraFuel=new Obj(monitor.x+120,monitor.h+320,48,0),
     fuelBtnMaskMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
-    engineaquecido=false,
     localSpdBtn=new Obj(cockpit.x+800,cockpit.h/2,64,64),
     localSpdBtnMaskmouse=new Obj(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h),
     localSpd=false,
     placaSolar=false,
     reator=0,
-    barrareator=new Obj(cockpit.x+232,cockpit.h-76,48,0),
-    placaSolarBtn=new Obj(cockpit.x+450,cockpit.h/2,64,64),
+    barrareator=new Obj(monitor.x+48,monitor.h+320,48,0),
+    placaSolarBtn=new Obj(monitor.x+28,monitor.h+380,64,64),
     placaSolarBtnMaskMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
     shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
     shipMaskStation=new Obj(ship.x,ship.y,ship.w,ship.h),
@@ -256,17 +255,15 @@ btnTestMaskMouse.y=btnTest.y;
 
 
 ///Colisões
-//ship collitions check
+
+//
 shipMaskpoint.collide(point.x,point.y,point.w,point.h)
+//
 shipMaskStation.collide(station.x,station.y,station.w,station.h)
-
-//mouse collitions check
+//
 mouseMaskStation.collide(station.x,station.y,station.w,station.h)
+//
 mouseMasklocalSpdBtn.collide(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h)
-
-
-
-
 //
 localSpdBtnMaskmouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
@@ -283,31 +280,19 @@ btnTestMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 
 
 
-
 if(hudControl){
-
-
-if(placaSolarBtnMaskMouse.collideBolean||
-  fuelBtnMaskMouse.collideBolean||fuelBtnMaskMouse.collideBolean||
-  engineBtnMaskMouse.collideBolean||localSpdBtnMaskmouse.collideBolean||
-  dockBtnMaskMouse.collideBolean){
   pointActive=false
-}
 }
 
 
 
  ///pega a posiçao do point
- if(pointActive){
+if(pointActive){
   ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
   point.x=mouse.x
   point.y=mouse.y
 }
   
-
-
-
-
 
 
 //executa interação da colisão ship/point
@@ -438,16 +423,13 @@ if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
                                      
 space.Sprite(monitorImg,canvas.width,canvas.height); 
 
-
 point.SpriteAnime(pointImg,0,0);
-
 
 station.hudMsg(station.x+64,station.y+32,"green","16px DePixel","Station 1");
 station.SpriteAnime(stationImg,0,0);
 
 ship.hudMsg(ship.x+54,ship.y+32,"green","16px DePixel","ship");
 ship.SpriteAnime(shipImg,0,yIndexShip)
-
 ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
 
 
@@ -455,7 +437,7 @@ if(hudControl){
 
 
   cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
-  monitor.Sprite(monitorImg,316,290)
+  monitor.Sprite(monitorImg,monitor.w,monitor.h)
 
  
 
@@ -520,7 +502,7 @@ if(fuelBtnMaskMouse.collideBolean&&click&&fuelcharge){
 }else
 //liga fuel charge
 if(fuelBtnMaskMouse.collideBolean&&click){
-  pointActive=false
+  pointActive=false;
   
   if(dock){
 
@@ -559,23 +541,8 @@ if(dock){
 }
 
 
-
-
-
-
-
-
-
-
                         ////Draw
   
-
-
-
-
-
-
-
 
 
 if(placaSolar){
@@ -615,26 +582,19 @@ engineBtn.hudMsg(engineBtn.x+32,engineBtn.y+84,"green","14px DePixel",`engine:${
   
   ///hud sistem
 
- 
- 
-
   if(reator>0){
-    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"green","16px DePixel",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"green","16px DePixel",`reator ${Math.floor(reator/2)}%` )
   } if(reator<1) {
-    barrareator.hudMsg(barrareator.x+8,barrareator.y+16,"red","16px DePixel",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"red","16px DePixel",`reator ${Math.floor(reator/2)}%` )
   }
 
 
- 
-
-
-  
 
   barraFuel.Draw("orange",0.5)
   if(fuel>0){
-    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"green","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"green","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
   } if(fuel<1){
-    barraFuel.hudMsg(barraFuel.x+8,barraFuel.y+16,"red","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"red","16px DePixel",`fuel ${Math.floor(fuel/2)}%` )
   }
   
   barrareator.Draw("green",0.5)
@@ -655,34 +615,38 @@ if(logisticControlBol){
 
 
 if (debugMode){
-/*
-  //mascaras de colisao
-  
-  stationMask.DrawRect("red",2)
-  mouseMaskStation.DrawRect("red",2)
-  
- //
-*/
 
+  
+stationMask.DrawRect("red",2)
+mouseMaskStation.DrawRect("red",2) 
 point.DrawRect("red",2)
 shipMaskpoint.DrawRect("red",2);
 mouse.DrawRect("red",2)
+placaSolarBtn.DrawRect("red",2)
+fuelBtn.DrawRect("red",2)
+engineBtn.DrawRect("red",2)
+localSpdBtn.DrawRect("red",2)
+dockBtn.DrawRect("red",2)
 
-debug.hudMsg(debug.x,debug.y+16,"green","19px DePixel",`
+debug.hudMsg(debug.x,debug.y+16,"orange","19px DePixel",`
 mouse.x: ${mouse.x}    
 mouse.y: ${mouse.y}     
 click: ${click}    
 pointActive: ${pointActive}    
 hudControl: ${hudControl }    
-angineaquecido: ${engineaquecido }    
+   
 
 
 `)
-debug.hudMsg(debug.x,debug.y+38,"green","19px DePixel",`
-fuelbtnMaskMouse:${fuelBtnMaskMouse.collideBolean}    
+debug.hudMsg(debug.x,debug.y+38,"orange","19px DePixel",`
+placaSolarcollidebolean:${placaSolarBtnMaskMouse.collideBolean}    
+fuelMaskMouse:${fuelBtnMaskMouse.collideBolean}    
+enginecollidebolean:${engineBtnMaskMouse.collideBolean}
+localSpdMaskMousecollidebolean:${localSpdBtnMaskmouse.collideBolean}    
+dockBtnmaskMousecollidebolean:${dockBtnMaskMouse.collideBolean}    
 dockable:${dockable}    
 dock:${dock}    
-enginebtncollidebolean:${engineBtnMaskMouse.collideBolean}    
+    
 
 `)
 
@@ -691,7 +655,6 @@ point.x: ${point.x}
 point.y: ${point.y}   
 
 `)
-
 
 
 ////Hud
