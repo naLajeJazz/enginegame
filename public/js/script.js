@@ -24,7 +24,7 @@ canvas.style.backgroundColor="black";
 let navigation=new Obj(0,0,canvas.width,canvas.height),
     cockpit=new Obj(0,0,canvas.width,canvas.height),
     monitorStatus1=new Obj(64,330,216,274),
-    monitorStatus2=new Obj(332,64,490,300),
+    monitorStatus2=new Obj(332,330,490,300),
     hudControlBtn=new Obj(canvas.width/2,canvas.height/2,32,32);
 //debug
 let debug=new Obj(600,0),
@@ -39,14 +39,14 @@ let mouse=new Obj(0,0,32,32),
 
 
 //ship
-let ship=new Obj(560,300,32,32,0.05),
+let ship=new Obj(560,300,32,32,0.02),
     hudControl=true,
     logisticControl=new Obj(900,100,400,500),
     logisticControlBol=false,
     engine=false,
     engineBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+400,64,64),
     engineBtnMaskMouse=new Obj(engineBtn.x,engineBtn.y,engineBtn.w,engineBtn.h),
-    engineSpd=0.2,
+    engineSpd=0.07,
     fuel=0,
     fuelcharge=false,
     fuelBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+340,32,32),
@@ -69,6 +69,7 @@ let ship=new Obj(560,300,32,32,0.05),
 
 ///point  
 let point=new Obj(ship.x,ship.y,32,32),
+    pointCollideShip=new Obj(point.x,point.y,point.w,point.h),
     pointActive=false;
 
 //station
@@ -176,7 +177,7 @@ canvas.addEventListener('click',function(){
                   click=true
              setTimeout(() => {
               click=false
-             }, 10);
+             }, 12);
                  
                  
               },false);
@@ -257,7 +258,9 @@ dockBtnMaskMouse.y=dockBtn.y;
 //
 engineBtnMaskMouse.x=engineBtn.x;
 engineBtnMaskMouse.y=engineBtn.y;
-
+//
+pointCollideShip.x=point.x;
+pointCollideShip.y=point.y;
 
 
 ///Colisões
@@ -282,15 +285,14 @@ dockBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 hudControlBtn.collide(mouse.x,mouse.y,mouse.w,mouse.h)
+//
+pointCollideShip.collide(ship.x,ship.y,ship.w,ship.h)
 
 if(hudControl||hudControlBtn.collideBolean){
   pointActive=false
 }
-
-
-
  ///pega a posiçao do point
-if(pointActive){
+ if(pointActive){
   ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
   point.x=mouse.x
   point.y=mouse.y
@@ -299,10 +301,20 @@ if(pointActive){
 
 
 //executa interação da colisão ship/point
-if(shipMaskpoint.collideBolean&&ship.x==point.x&&ship.y==point.y){
-  
-  localSpd=false
+if(shipMaskpoint.collideBolean){
+
+    localSpd=false;
+    engine=false;
+
+
 }
+
+
+
+
+
+
+
 
 //executa interação da colisão ship/station
 if(shipMaskStation.collideBolean||mouseMaskStation.collideBolean){
@@ -461,6 +473,8 @@ if(hudControl){
  
   
   cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
+
+  
   monitorStatus1.Sprite(monitorImg,monitorStatus1.w,monitorStatus1.h);
   monitorStatus2.Sprite(monitorImg,monitorStatus2.w,monitorStatus2.h);
  
@@ -582,10 +596,10 @@ let monitorFontColor="orange"
 monitorStatus2.hudMsg(monitorStatus2.x+140,monitorStatus2.y+64,monitorFontColor,"22px Courier New",`status: normal`)
 monitorStatus2.hudMsg(monitorStatus2.x+116,monitorStatus2.y+100,monitorFontColor,"18px Courier New",`dinstance:[${dis}] `)
 monitorStatus2.hudMsg(monitorStatus2.x+300,monitorStatus2.y+100,monitorFontColor,"18px Courier New",`thrust power:[${thrustpower} %]`)
-monitorStatus2.hudMsg(monitorStatus2.x+184,monitorStatus2.y+132,monitorFontColor,"18px Courier New",`solar panel charge:[${placaSolar}]`)
-monitorStatus2.hudMsg(monitorStatus2.x+174,monitorStatus2.y+164,monitorFontColor,"18px Courier New",`fuel pump charge:[${fuelcharge}]`)
+monitorStatus2.hudMsg(monitorStatus2.x+238,monitorStatus2.y+132,monitorFontColor,"18px Courier New",`solar panel charge:[${placaSolar}] reator->${Math.floor(reator/2)}%`)
+monitorStatus2.hudMsg(monitorStatus2.x+228,monitorStatus2.y+146,monitorFontColor,"18px Courier New",`fuel pump charge:[${fuelcharge}] fuel->${Math.floor(fuel/2)}%`)
 monitorStatus2.hudMsg(monitorStatus2.x+132,monitorStatus2.y+196,monitorFontColor,"18px Courier New",`dockable:[${dockable}]`)
-monitorStatus2.hudMsg(monitorStatus2.x+300,monitorStatus2.y+196,monitorFontColor,"18px Courier New",`dock:[${dock}]`)
+monitorStatus2.hudMsg(monitorStatus2.x+132,monitorStatus2.y+210,monitorFontColor,"18px Courier New",`dock:[${dock}]`)
 
 
 
@@ -601,18 +615,18 @@ monitorStatus2.hudMsg(monitorStatus2.x+300,monitorStatus2.y+196,monitorFontColor
   ///hud sistem
 
   if(reator>0){
-    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"green","16px Courier New",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"orange","14px Courier New",`reator` )
   } if(reator<1) {
-    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"red","16px Courier New",`reator ${Math.floor(reator/2)}%` )
+    barrareator.hudMsg(barrareator.x+28,barrareator.y+16,"red","14px Courier New",`reator` )
   }
 
 
 
   barraFuel.Draw("orange",0.5)
   if(fuel>0){
-    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"green","16px Courier New",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"orange","14px Courier New",`fuel` )
   } if(fuel<1){
-    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"red","16px Courier New",`fuel ${Math.floor(fuel/2)}%` )
+    barraFuel.hudMsg(barraFuel.x+38,barraFuel.y+16,"red","14px Courier New",`fuel` )
   }
   
   barrareator.Draw("green",0.5)
@@ -641,6 +655,7 @@ engineBtn.DrawRect("red",2)
 localSpdBtn.DrawRect("red",2)
 dockBtn.DrawRect("red",2)
 hudControlBtn.DrawRect("red",2)
+pointCollideShip.DrawRect("red",2)
 
 debug.hudMsg(debug.x,debug.y+16,"orange","19px DePixel",`
 mouse.x: ${mouse.x}    
@@ -668,6 +683,7 @@ dock:${dock}
 point.hudMsg(point.x,point.y-48,"green","18px DePixel",`
 point.x: ${point.x}    
 point.y: ${point.y}   
+shipMaskpoint.collideBolean: ${shipMaskpoint.collideBolean}   
 
 `)
 
@@ -684,7 +700,7 @@ distancey:${ Math.floor(ship.y-point.y)}
 ship.x:${Math.floor(ship.x) }   
 ship.y:${Math.floor(ship.y)}   
 distance=${ dis }
-ship.collidebolean: ${ship.collideBolean}   
+
 
 `)
 
