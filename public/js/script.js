@@ -12,6 +12,9 @@ import{mouseImg,
        monitorImg,
        hudControlBtnImg} from './Img.js'
 
+       
+import{debug,debugMode,mouse,click}from './controller.js'
+
 
  
 canvas.width=screen.width;
@@ -26,13 +29,11 @@ let navigation=new Obj(0,0,canvas.width,canvas.height),
     monitorStatus1=new Obj(64,330,216,274),
     monitorStatus2=new Obj(332,330,490,300),
     hudControlBtn=new Obj(canvas.width/2,canvas.height/2,32,32);
-//debug
-let debug=new Obj(600,0),
-    debugMode=false;
+
 
 //mouse
-let mouse=new Obj(0,0,32,32),
-    click=false,
+let 
+    
     mouseMaskStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h),
     mouseMasklocalSpdBtn=new Obj(mouse.x,mouse.y,mouse.w,mouse.h)
     ;
@@ -77,121 +78,19 @@ let station= new Obj(600,300,32,32),
     stationMask= new Obj(station.x,station.y,station.w,station.h);
 
 
-
-
-
                     ////controles////
-
-////teclado
-
-window.addEventListener("keyup",()=>{
-                 test=false;
-                 
-                  
-                },false);
-
-window.addEventListener("keydown",function(event){
-
-                  let k= event.key;
-                             
-                  if (k == "d" ){
-                                         
-                 dock=true
-
-                  }else if(k =="a" ){
-
-                  dock=false
-                                        
-                  }else if (k=="w"){
-
-                  test=true
-
-                  }else if (k=="s"){
-
-                  test=true
-
-                  }else if (k=="t"){
-                  debugMode=true           
-                  }else if (k=="y"){
-                  debugMode=false           
-                  }
-                  else if (k=="b"){
-                             localSpd=true        
-                  }
-                  else if (k=="n"){
-                                 localSpd=false     
-                  }
-                  else if (k=="e"){
-                                 ship.spd+=0.1    
-                  }
-                  else if (k=="q"){
-                                ship.spd-=0.1   
-                  }
-                  else if (k=="h"){
-                                 placaSolar=true
-                  }
-                  else if (k=="j"){
-                        placaSolar=false
-                  }
-                  else if (k=="z"){
-                        hudControl=true
-                  }
-                  else if (k=="x"){
-                        hudControl=false
-                  }
-                  else if (k=="c"){
-                        engine=true
-                  }
-                  else if (k=="v"){
-                        engine=false
-                  }
-                  else if (k=="f"){
-                        fuelcharge=true
-                  }
-                
-                  else if (k=="l"){
-                        logisticControlBol=true
-                  }
-                  else if (k=="ç"){
-                    logisticControlBol=false
-                  }
-                
-                  },false);
-
-
-///mouse
-                  
-canvas.addEventListener('mousemove',function(e){
-                  mouse.x=e.offsetX;
-                  mouse.y=e.offsetY;
-
-                  
-              },false);
 canvas.addEventListener('mousedown',function(){
                   
                   pointActive=true
                  
                  
               },false);
-canvas.addEventListener('click',function(){
-                  click=true
-             setTimeout(() => {
-              click=false
-             }, 12);
-                 
-                 
-              },false);
+                          
 canvas.addEventListener('mouseup',function(){
-                  click=false
+                 
                   pointActive=false
                   
               },false);
-canvas.addEventListener('mouseover',function(){
-                  ////
-                  
-              },false);
-               
-
 
 ///anima Sprite
 let xIndex=0
@@ -310,17 +209,6 @@ if(shipMaskpoint.collideBolean){
 }
 
 
-
-
-
-
-
-
-//executa interação da colisão ship/station
-if(shipMaskStation.collideBolean||mouseMaskStation.collideBolean){
- 
-  
-}
 
 //dockable
 if(shipMaskStation.collideBolean){
@@ -632,10 +520,6 @@ monitorStatus2.hudMsg(monitorStatus2.x+132,monitorStatus2.y+210,monitorFontColor
   barrareator.Draw("green",0.5)
   
 
-//
-if(logisticControlBol){
-  logisticControl.DrawRect("green",2)
-}
 
   
 }
@@ -708,6 +592,12 @@ distance=${ dis }
 
      
 if (click){mouse.SpriteAnime(mouseImg,0,yIndex+64)}else{mouse.SpriteAnime(mouseImg,0,yIndex)}
+//
+if(logisticControlBol){
+  logisticControl.DrawRect("green",2)
+}
+
 
 };
 game();
+
