@@ -13,8 +13,8 @@ import{mouseImg,
        hudControlBtnImg} from './Img.js'
 
        
-import{debug,debugMode,mouse,click}from './controller.js'
-
+import{debug,debugMode,mouse,click,testi}from './controller.js'
+import Collisions from './Collisions.js'
 
  
 canvas.width=screen.width;
@@ -32,41 +32,38 @@ let navigation=new Obj(0,0,canvas.width,canvas.height),
 
 
 //mouse
-let 
-    
-    mouseMaskStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h),
-    mouseMasklocalSpdBtn=new Obj(mouse.x,mouse.y,mouse.w,mouse.h)
-    ;
+let mouseCollideStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h),
+    mouseCollideLocalSpdBtn=new Obj(mouse.x,mouse.y,mouse.w,mouse.h);
 
 
-//ship
-let ship=new Obj(560,300,32,32,0.02),
+    //ship
+    let ship=new Obj(560,300,32,32,0.02),
+    shipCollidePoint=new Obj(ship.x,ship.y,ship.w,ship.h),
+    shipCollideStation=new Obj(ship.x,ship.y,ship.w,ship.h),
     hudControl=true,
     logisticControl=new Obj(900,100,400,500),
     logisticControlBol=false,
     engine=false,
     engineBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+400,64,64),
-    engineBtnMaskMouse=new Obj(engineBtn.x,engineBtn.y,engineBtn.w,engineBtn.h),
+    engineBtnCollideMouse=new Obj(engineBtn.x,engineBtn.y,engineBtn.w,engineBtn.h),
     engineSpd=0.07,
     fuel=0,
     fuelcharge=false,
     fuelBtn=new Obj(monitorStatus1.x+140,monitorStatus1.h+340,32,32),
     barraFuel=new Obj(monitorStatus1.x+120,monitorStatus1.h+290,48,0),
-    fuelBtnMaskMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
+    fuelBtnCollideMouse=new Obj(fuelBtn.x,fuelBtn.y,fuelBtn.w,fuelBtn.h),
     localSpdBtn=new Obj(monitorStatus1.x+48,monitorStatus1.h+400,64,64),
-    localSpdBtnMaskmouse=new Obj(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h),
+    localSpdCollideMouse=new Obj(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h),
     localSpd=false,
     placaSolar=false,
     reator=0,
     barrareator=new Obj(monitorStatus1.x+48,monitorStatus1.h+290,48,0),
     placaSolarBtn=new Obj(monitorStatus1.x+48,monitorStatus1.h+340,32,32),
-    placaSolarBtnMaskMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
-    shipMaskpoint=new Obj(ship.x,ship.y,ship.w,ship.h),
-    shipMaskStation=new Obj(ship.x,ship.y,ship.w,ship.h),
+    placaSolarBtnCollideMouse=new Obj(placaSolarBtn.x,placaSolarBtn.y,placaSolarBtn.w,placaSolarBtn.h),
     dockable=false,
     dock=false,
     dockBtn=new Obj(cockpit.x+950,cockpit.h/2,64,64),
-    dockBtnMaskMouse=new Obj(dockBtn.x,dockBtn.y,dockBtn.w,dockBtn.h);
+    dockBtnCollideMouse=new Obj(dockBtn.x,dockBtn.y,dockBtn.w,dockBtn.h);
 
 ///point  
 let point=new Obj(ship.x,ship.y,32,32),
@@ -91,6 +88,7 @@ canvas.addEventListener('mouseup',function(){
                   pointActive=false
                   
               },false);
+              
 
 ///anima Sprite
 let xIndex=0
@@ -118,74 +116,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
                   /////Game Updates/////
 
-                 
-
-///as mascaras de colisões sempre seguem os objetos
-
-//ship collitions masks
-shipMaskpoint.x=ship.x
-shipMaskpoint.y=ship.y
-shipMaskStation.x=ship.x
-shipMaskStation.y=ship.y
-
-//localSpdBtn collittions mask
-localSpdBtnMaskmouse.x=localSpdBtn.x
-localSpdBtnMaskmouse.y=localSpdBtn.y
-
-//station collitions masks
-stationMask.x=station.x
-stationMask.y=station.y
-
-//mouse collitions masks
-mouseMaskStation.x=mouse.x
-mouseMaskStation.y=mouse.y
-mouseMasklocalSpdBtn.x=mouse.x
-mouseMasklocalSpdBtn.y=mouse.y
-
-//placasolarbtn collitions mask
-placaSolarBtnMaskMouse.x=placaSolarBtn.x
-placaSolarBtnMaskMouse.y=placaSolarBtn.y
-
-//
-fuelBtnMaskMouse.x=fuelBtn.x;
-fuelBtnMaskMouse.y=fuelBtn.y;
-
-//
-dockBtnMaskMouse.x=dockBtn.x;
-dockBtnMaskMouse.y=dockBtn.y;
-
-//
-engineBtnMaskMouse.x=engineBtn.x;
-engineBtnMaskMouse.y=engineBtn.y;
-//
-pointCollideShip.x=point.x;
-pointCollideShip.y=point.y;
-
-
-///Colisões
-
-//
-shipMaskpoint.collide(point.x,point.y,point.w,point.h)
-//
-shipMaskStation.collide(station.x,station.y,station.w,station.h)
-//
-mouseMaskStation.collide(station.x,station.y,station.w,station.h)
-//
-mouseMasklocalSpdBtn.collide(localSpdBtn.x,localSpdBtn.y,localSpdBtn.w,localSpdBtn.h)
-//
-localSpdBtnMaskmouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-placaSolarBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-fuelBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-dockBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-engineBtnMaskMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-hudControlBtn.collide(mouse.x,mouse.y,mouse.w,mouse.h)
-//
-pointCollideShip.collide(ship.x,ship.y,ship.w,ship.h)
+       Collisions();          
 
 if(hudControl||hudControlBtn.collideBolean){
   pointActive=false
@@ -200,7 +131,7 @@ if(hudControl||hudControlBtn.collideBolean){
 
 
 //executa interação da colisão ship/point
-if(shipMaskpoint.collideBolean){
+if(shipCollidePoint.collideBolean){
 
     localSpd=false;
     engine=false;
@@ -211,7 +142,7 @@ if(shipMaskpoint.collideBolean){
 
 
 //dockable
-if(shipMaskStation.collideBolean){
+if(shipCollideStation.collideBolean){
   
   dockable=true;
 }else{
@@ -231,7 +162,7 @@ if(placaSolar&&reator<=200){
 }
                   
 ///sistema fuel charge
-if(fuelcharge&&fuel<=200&&shipMaskStation.collideBolean){
+if(fuelcharge&&fuel<=200&&shipCollideStation.collideBolean){
 
 
   fuel+=0.1;
@@ -373,11 +304,11 @@ if(hudControl){
 
 
 ///desliga botao localspd
-if(localSpdBtnMaskmouse.collideBolean&&click&&localSpd){
+if(localSpdCollideMouse.collideBolean&&click&&localSpd){
  localSpd=false;  
 }else
 //liga botao localspd
-if(localSpdBtnMaskmouse.collideBolean&&click&&!dock&&!engine&&reator>=1){
+if(localSpdCollideMouse.collideBolean&&click&&!dock&&!engine&&reator>=1){
   localSpd=true; 
 } 
 
@@ -391,11 +322,11 @@ if(localSpd){
 
 ///desliga botao engine
 
-if(engineBtnMaskMouse.collideBolean&&click&&engine){
+if(engineBtnCollideMouse.collideBolean&&click&&engine){
  engine=false;  
 }else
 //liga botao engine
-if(engineBtnMaskMouse.collideBolean&&click&&!dock&&!localSpd&&fuel>=1){
+if(engineBtnCollideMouse.collideBolean&&click&&!dock&&!localSpd&&fuel>=1){
   engine=true; 
 }
 
@@ -409,11 +340,11 @@ if(engine){
 
 ///desliga placa solar
 
-if(placaSolarBtnMaskMouse.collideBolean&&click&&placaSolar){
+if(placaSolarBtnCollideMouse.collideBolean&&click&&placaSolar){
  placaSolar=false; 
 }else
 //liga placa solar
-if(placaSolarBtnMaskMouse.collideBolean&&click){
+if(placaSolarBtnCollideMouse.collideBolean&&click){
   placaSolar=true; 
 }
 if(placaSolar){
@@ -425,14 +356,14 @@ if(placaSolar){
 
 ///desliga fuel charge
 
-if(fuelBtnMaskMouse.collideBolean&&click&&fuelcharge){
+if(fuelBtnCollideMouse.collideBolean&&click&&fuelcharge){
   pointActive=false
   fuelcharge=false;
   
 
 }else
 //liga fuel charge
-if(fuelBtnMaskMouse.collideBolean&&click){
+if(fuelBtnCollideMouse.collideBolean&&click){
   pointActive=false;
   
   if(dock){
@@ -451,14 +382,14 @@ if(fuelcharge){
 
 ///desliga dock
 
-if(dockBtnMaskMouse.collideBolean&&click&&dock&&dockable){
+if(dockBtnCollideMouse.collideBolean&&click&&dock&&dockable){
   pointActive=false
   dock=false;
   
   
 }else
 //liga dock
-if(dockBtnMaskMouse.collideBolean&&click&dockable){
+if(dockBtnCollideMouse.collideBolean&&click&dockable){
   
   pointActive=false
   dock=true;
@@ -529,9 +460,9 @@ if (debugMode){
 
   
 stationMask.DrawRect("red",2)
-mouseMaskStation.DrawRect("red",2) 
+mouseCollideStation.DrawRect("red",2) 
 point.DrawRect("red",2)
-shipMaskpoint.DrawRect("red",2);
+shipCollidePoint.DrawRect("red",2);
 mouse.DrawRect("red",2)
 placaSolarBtn.DrawRect("red",2)
 fuelBtn.DrawRect("red",2)
@@ -553,13 +484,14 @@ hudControlcollide: ${hudControlBtn.collideBolean }
 
 `)
 debug.hudMsg(debug.x,debug.y+38,"orange","19px DePixel",`
-placaSolarcollidebolean:${placaSolarBtnMaskMouse.collideBolean}    
-fuelMaskMouse:${fuelBtnMaskMouse.collideBolean}    
-enginecollidebolean:${engineBtnMaskMouse.collideBolean}
-localSpdMaskMousecollidebolean:${localSpdBtnMaskmouse.collideBolean}    
-dockBtnmaskMousecollidebolean:${dockBtnMaskMouse.collideBolean}    
+placaSolarcollidebolean:${placaSolarBtnCollideMouse.collideBolean}    
+fuelMaskMouse:${fuelBtnCollideMouse.collideBolean}    
+enginecollidebolean:${engineBtnCollideMouse.collideBolean}
+localSpdMaskMousecollidebolean:${localSpdCollideMouse.collideBolean}    
+dockBtnCollideMousecollidebolean:${dockBtnCollideMouse.collideBolean}    
 dockable:${dockable}    
 dock:${dock}    
+testi:${testi}    
     
 
 `)
@@ -567,7 +499,7 @@ dock:${dock}
 point.hudMsg(point.x,point.y-48,"green","18px DePixel",`
 point.x: ${point.x}    
 point.y: ${point.y}   
-shipMaskpoint.collideBolean: ${shipMaskpoint.collideBolean}   
+shipCollidePoint.collideBolean: ${shipCollidePoint.collideBolean}   
 
 `)
 
@@ -601,3 +533,25 @@ if(logisticControlBol){
 };
 game();
 
+export{
+  shipCollidePoint,
+       shipCollideStation,
+       localSpdCollideMouse,
+       stationMask,
+       mouseCollideStation,
+       mouseCollideLocalSpdBtn,
+       placaSolarBtnCollideMouse,
+       fuelBtnCollideMouse,
+       dockBtnCollideMouse,
+       engineBtnCollideMouse,
+       pointCollideShip,
+       ship,
+       localSpdBtn,
+       station,
+       placaSolarBtn,
+       fuelBtn,
+       dockBtn,
+       engineBtn,
+       point,
+       hudControlBtn
+}

@@ -7,9 +7,11 @@ import {canvas} from './obj.js'
 
 let mouse=new Obj(0,0,32,32);
 let click=false;
+let pointActive=false;
   //debug
 let debug=new Obj(600,0),
 debugMode=false;  
+let testi=false;
 
  
     
@@ -47,6 +49,7 @@ canvas.addEventListener('mousemove',function(e){
 canvas.addEventListener('mousedown',function(){
   
   //pointActive=true
+  testi=true
  
  
 },false);
@@ -61,6 +64,7 @@ click=false
 canvas.addEventListener('mouseup',function(){
   click=false
   //pointActive=false
+  testi=false
   
 },false);
 canvas.addEventListener('mouseover',function(){
@@ -74,5 +78,7 @@ debug,
 debugMode,
 mouse,
 click,
+pointActive,
+testi
  
 }
