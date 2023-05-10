@@ -22,7 +22,7 @@ let cockpitImg = document.createElement("IMG");
 cockpitImg.setAttribute("src","./assets/cockpit.png");
 
 let monitorImg = document.createElement("IMG");
-monitorImg.setAttribute("src","./assets/monitor.png");
+monitorImg.setAttribute("src","./assets/monitor2.png");
 
 let hudControlBtnImg = document.createElement("IMG");
 hudControlBtnImg.setAttribute("src","./assets/hudControlBtn.png");

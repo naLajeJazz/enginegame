@@ -9,7 +9,7 @@ let mouse=new Obj(0,0,32,32);
 let click=false;
 let pointActive=false;
   //debug
-let debug=new Obj(600,0),
+let debug=new Obj(16,0),
 debugMode=false;  
 let testi=false;
 

@@ -79,14 +79,15 @@ if(this.x<=this.hitX+this.hitW&&this.x+this.w>=this.hitX&&this.y+this.h>=this.hi
 
 }; 
 
-hudMsg(msgX,msgY,msgColor,fntSizefont,msg){
+hudMsg(msgX,msgY,msgColor,fntSizefont,msg,alpha){
 this.msgX=msgX;
 this.msgY=msgY;
 this.msgColor=msgColor;
 ctx.save()
+ctx.globalAlpha = alpha;
 ctx.font = fntSizefont;
 ctx.fillStyle = msgColor;
-ctx.textAlign = "center";
+ctx.textAlign = "start";
 ctx.fillText(msg, this.msgX, this.msgY);
 ctx.restore()
 }
