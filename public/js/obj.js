@@ -99,11 +99,13 @@ Sprite=(img,spw,sph)=>{
   ctx.drawImage(this.img,this.x,this.y,this.spw,this.sph); 
 
   };
-SpriteAnime=(img,xIndex,yIndex)=>{
+SpriteAnime=(img,xIndex,yIndex,spw,sph)=>{
     this.img=img;
+    this.spw = spw
+    this.sph = sph
     this.xIndex=xIndex;
-    this.yIndex=yIndex                
-    ctx.drawImage(this.img,this.xIndex,this.yIndex,64,64,this.x,this.y,this.w,this.h); 
+    this.yIndex=yIndex;               
+    ctx.drawImage(this.img,this.xIndex,this.yIndex,this.spw,this.sph,this.x,this.y,this.w,this.h); 
 
   };
   SpriteTiles=(img,xTiles,yTiles)=>{
@@ -115,7 +117,6 @@ SpriteAnime=(img,xIndex,yIndex)=>{
     };
  
 
- 
 
 
 
