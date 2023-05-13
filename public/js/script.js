@@ -3,31 +3,18 @@ import Obj from './obj.js'
 import {canvas} from './obj.js'
 import {ctx} from './obj.js'
 
-import{mouseImg,
-       btnImg,
-       btn2Img,
-       shipImg,
-       stationImg,
-       pointImg,
-       cockpitImg,
-       spaceImg,
-       monitorImg,
-       hudControlBtnImg} from './Img.js'
+import{mouseImg,btnImg,btn2Img,shipImg,stationImg,pointImg,
+cockpitImg,spaceImg,monitorImg,hudControlBtnImg} from './Img.js'
 
        
-import{debug,debugMode,mouse,click,testi}from './controller.js'
+import{mouse,click}from './controller.js'
 
 import Collisions from './Collisions.js'
-import{xIndex,
-  yIndex,
-  xIndexShip,
-  yIndexShip,
-  xIndexTile,
-  yIndexTile,
-  xIndexStation,
-  yIndexStation,
-  xIndexPoint,
-  yIndexPoint}from './Animation.js'
+
+import{xIndex,yIndex,xIndexShip,yIndexShip,xIndexTile,yIndexTile,
+xIndexStation,yIndexStation,xIndexPoint,yIndexPoint}from './Animation.js'
+
+import Debug from './Debug.js'
 
  
 canvas.width=screen.width;
@@ -35,8 +22,8 @@ canvas.height=screen.height+8;
 canvas.style.backgroundColor="black";
 
                       ////Objetos////
-
-
+                    
+                     
 let navigation=new Obj(0,0,canvas.width,canvas.height),
     cockpit=new Obj(0,0,canvas.width,canvas.height),
     space=new Obj(0,0,600,300),
@@ -91,20 +78,15 @@ let station= new Obj(600,300,32,32),
 
                     ////controles////
 canvas.addEventListener('mousedown',function(){
-                  
                   pointActive=true
-                 
-                 
-              },false);
+                 },false);
                           
 canvas.addEventListener('mouseup',function(){
-                 
-                  pointActive=false
-                  
-              },false);
+                 pointActive=false
+                  },false);
               
 
-                  /////Game//////
+                    /////Game//////
 
     
 function game (){
@@ -114,66 +96,47 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
                   /////Game Updates/////
 
-       Collisions();  
+Collisions();  
        
-       
-       
-
 if(hudControl||hudControlBtn.collideBolean){
   pointActive=false
 }
+
  ///pega a posiçao do point
- if(pointActive){
-  ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
-  point.x=mouse.x
-  point.y=mouse.y
+if(pointActive){
+ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
+point.x=mouse.x
+point.y=mouse.y
 }
   
-
-
 //executa interação da colisão ship/point
 if(shipCollidePoint.collideBolean){
-
-    localSpd=false;
-    engine=false;
-
-
+localSpd=false;
+engine=false;
 }
-
-
 
 //dockable
 if(shipCollideStation.collideBolean){
-  
-  dockable=true;
+dockable=true;
 }else{
-  dockable=false;
+dockable=false;
 }
-
-
                   
 ///sistema placas solar e reator
 if(placaSolar&&reator<=100){
-  
-  reator+=0.1;
-  barrareator.h-=0.1;
+reator+=0.1;
+barrareator.h-=0.1;
 }else{
-  placaSolar=false;
- 
+placaSolar=false;
 }
                   
 ///sistema fuel charge
 if(fuelcharge&&fuel<=100&&shipCollideStation.collideBolean){
-
-
-  fuel+=0.1;
-  barraFuel.h-=0.1;
+fuel+=0.1;
+barraFuel.h-=0.1;
 }else{
-  fuelcharge=false;
- 
-}
-
-
+fuelcharge=false;
+ }
 
 ///mover na direçao indicada
 
@@ -253,11 +216,8 @@ if(localSpd&&!placaSolar&&reator>=1||engine&&!fuelcharge&&fuel>=1&&!dock){
 
 
 let dis=  Math.floor(Math.abs(point.x-ship.x) + Math.abs(point.y-ship.y))    
- 
-
                                      
 navigation.Sprite(monitorImg,canvas.width,canvas.height); 
-
 
 point.SpriteAnime(pointImg,xIndexPoint,yIndexPoint,point.w,point.h);
 
@@ -269,37 +229,27 @@ ship.SpriteAnime(shipImg,xIndexShip,yIndexShip,ship.w,ship.h)
 ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
 
 
-
-
-
 if(hudControlBtn.collideBolean&&click&&!hudControl){
-  
-  hudControl=true
-  
- }else if(hudControlBtn.collideBolean&&click&&hudControl){
-  hudControl=false
- }
+hudControl=true
+}else if(hudControlBtn.collideBolean&&click&&hudControl){
+hudControl=false
+}
 if(hudControl){
-  hudControlBtn.y=canvas.height-canvas.height+16
-
+hudControlBtn.y=canvas.height-canvas.height+16
 }else{
-  hudControlBtn.y=canvas.height-74
-  hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex+64,hudControlBtn.w,hudControlBtn.h  )
+hudControlBtn.y=canvas.height-74
+hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex+64,hudControlBtn.w,hudControlBtn.h)
 }
 
 
-
-
 //////////////////
-
-
 
 if(hudControl){
 
 
  
   
-  space.Sprite(spaceImg,canvas.width,canvas.height);
+  //space.Sprite(spaceImg,canvas.width,canvas.height);
   cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
 
   
@@ -461,112 +411,29 @@ monitorStatus2.hudMsg(monitorStatus2.x+32,monitorStatus2.y+210,monitorFontColor,
   }
   
   barrareator.Draw("green",0.5)
-  
-
 
   
+
+  
+ 
 }
 
 
-if (debugMode){
-
-  
-stationMask.DrawRect("red",2)
-mouseCollideStation.DrawRect("red",2) 
-point.DrawRect("red",2)
-shipCollidePoint.DrawRect("red",2);
-mouse.DrawRect("red",2)
-placaSolarBtn.DrawRect("red",2)
-fuelBtn.DrawRect("red",2)
-engineBtn.DrawRect("red",2)
-localSpdBtn.DrawRect("red",2)
-dockBtn.DrawRect("red",2)
-hudControlBtn.DrawRect("red",2)
-pointCollideShip.DrawRect("red",2)
-
-debug.hudMsg(debug.x,debug.y+16,"orange","19px DePixel",`
-mouse.x: ${mouse.x}    
-mouse.y: ${mouse.y}     
-click: ${click}    
-pointActive: ${pointActive}    
-hudControl: ${hudControl }       
-hudControlcollide: ${hudControlBtn.collideBolean } 
-dockable:${dockable}    
-dock:${dock} 
-dockable:${dockable}    
-testi:${testi}   
-   
-
-
-`)
-debug.hudMsg(debug.x,debug.y+46,"orange","19px DePixel",`
-placaSolarcollidebolean:${placaSolarBtnCollideMouse.collideBolean}    
-fuelMaskMouse:${fuelBtnCollideMouse.collideBolean}    
-enginecollidebolean:${engineBtnCollideMouse.collideBolean}
-localSpdMaskMousecollidebolean:${localSpdCollideMouse.collideBolean}    
-dockBtnCollideMousecollidebolean:${dockBtnCollideMouse.collideBolean}    
-   
-  
-    
-
-`)
-
-point.hudMsg(point.x,point.y-48,"green","18px DePixel",`
-point.x: ${point.x}    
-point.y: ${point.y}   
-shipCollidePoint.collideBolean: ${shipCollidePoint.collideBolean}   
-
-`)
-
-
-////Hud
-ship.hudMsg(ship.x,ship.y-64,"green","18px DePixel",`
-
-localSpd: ${localSpd}   
-aceleration: ${ship.spd}   `
-)
-ship.hudMsg(ship.x,ship.y-32,"green","18px DePixel",`
-distancex:${ Math.floor(ship.x-point.x)}   
-distancey:${ Math.floor(ship.y-point.y)}   
-ship.x:${Math.floor(ship.x) }   
-ship.y:${Math.floor(ship.y)}   
-distance=${ dis }
-
-
-`)
-
-}
-
+Debug();
      
-if (click){mouse.SpriteAnime(mouseImg,0,yIndex+64,mouse.w,mouse.h)}else{mouse.SpriteAnime(mouseImg,0,yIndex,mouse.w,mouse.h)}
+if (click){
+mouse.SpriteAnime(mouseImg,0,yIndex+64,mouse.w,mouse.h)
+}else{
+mouse.SpriteAnime(mouseImg,0,yIndex,mouse.w,mouse.h)}
 //
 if(logisticControlBol){
-  logisticControl.DrawRect("green",2)
+logisticControl.DrawRect("green",2)
 }
 
+};game();
 
-};
-game();
-
-export{
-  shipCollidePoint,
-       shipCollideStation,
-       localSpdCollideMouse,
-       stationMask,
-       mouseCollideStation,
-       mouseCollideLocalSpdBtn,
-       placaSolarBtnCollideMouse,
-       fuelBtnCollideMouse,
-       dockBtnCollideMouse,
-       engineBtnCollideMouse,
-       pointCollideShip,
-       ship,
-       localSpdBtn,
-       station,
-       placaSolarBtn,
-       fuelBtn,
-       dockBtn,
-       engineBtn,
-       point,
-       hudControlBtn
+export{shipCollidePoint,shipCollideStation,localSpdCollideMouse,stationMask,mouseCollideStation,
+       mouseCollideLocalSpdBtn,placaSolarBtnCollideMouse,fuelBtnCollideMouse,dockBtnCollideMouse,
+       engineBtnCollideMouse,pointCollideShip,ship,localSpdBtn,station,placaSolarBtn,fuelBtn,
+       dockBtn,engineBtn,point,hudControlBtn,pointActive,hudControl,dockable,dock,localSpd,      
 }

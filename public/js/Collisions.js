@@ -21,6 +21,7 @@ import{shipCollidePoint,
                   }from './script.js'
 import{mouse}from './controller.js'
 
+
 const Collisions= ()=>{
 ///as mascaras de colisões sempre seguem os objetos
 
@@ -88,6 +89,7 @@ engineBtnCollideMouse.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 hudControlBtn.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 pointCollideShip.collide(ship.x,ship.y,ship.w,ship.h)
+//
 
 
 };

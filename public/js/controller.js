@@ -5,7 +5,7 @@ import {canvas} from './obj.js'
 
 
 
-let mouse=new Obj(0,0,32,32);
+let mouse=new Obj(0,0,64,64);
 let click=false;
 let pointActive=false;
   //debug
@@ -33,7 +33,9 @@ window.addEventListener("keydown",function(event){
   debugMode=true           
   }else if (k=="y"){
   debugMode=false           
-  }
+  }else if (k=="p"){
+    window.print()      
+    }
  
   },false);
 
