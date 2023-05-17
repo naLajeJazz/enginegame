@@ -21,6 +21,6 @@ app.listen(process.env.PORT || 1010, function (erro) {
                   erro ?
                           console.log("opa aconteceu um erro!") :
                          
-                          console.table(["oba servidor rodando!","localhost:1010"]);
+                          console.table(["oba servidor rodando!","localhost:1010","Space Simulador"]);
           
           });

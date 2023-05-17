@@ -1,25 +1,12 @@
-import{shipCollidePoint,
-       shipCollideStation,
-       localSpdCollideMouse,
-       stationMask,
-       mouseCollideStation,
-       mouseCollideLocalSpdBtn,
-       placaSolarBtnCollideMouse,
-       fuelBtnCollideMouse,
-       dockBtnCollideMouse,
-       engineBtnCollideMouse,
-       pointCollideShip,
-       ship,
-       localSpdBtn,
-       station,
-       placaSolarBtn,
-       fuelBtn,
-       dockBtn,
-       engineBtn,
-       point,
-       hudControlBtn
-                  }from './script.js'
-import{mouse}from './controller.js'
+import{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
+       stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
+       placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
+       engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
+       dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
+       navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
+       fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, monitorStatus2,mouse
+                  }from './globalVar.js'
+
 
 
 const Collisions= ()=>{

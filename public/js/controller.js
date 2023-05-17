@@ -1,13 +1,22 @@
 
+
 import Obj from './obj.js'
 import {canvas} from './obj.js'
+import{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
+  stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
+  placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
+  engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
+  dockBtn, engineBtn, point, hudControlBtn, hudControl, dockable, dock, localSpd,
+  navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
+  fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, 
+  monitorStatus2,mouse, pointActive, click}from './globalVar.js'
 
 
 
 
-let mouse=new Obj(0,0,64,64);
-let click=false;
-let pointActive=false;
+
+
+
   //debug
 let debug=new Obj(16,0),
 debugMode=false;  
@@ -56,15 +65,15 @@ canvas.addEventListener('mousedown',function(){
  
 },false);
 canvas.addEventListener('click',function(){
-  click=true
+  click[0]=true
 setTimeout(() => {
-click=false
+click[0]=false
 }, 12);
  
  
 },false);
 canvas.addEventListener('mouseup',function(){
-  click=false
+  click[0]=false
   //pointActive=false
   testi=false
   
@@ -73,14 +82,21 @@ canvas.addEventListener('mouseover',function(){
   ////
   
 },false);
+canvas.addEventListener('mousedown',function(){
+  pointActive[0]=true
+ },false);
+          
+canvas.addEventListener('mouseup',function(){
+ pointActive[0]=false
+  },false);
 
 export{
   
 debug,
 debugMode,
-mouse,
-click,
-pointActive,
+
+
+
 testi
  
 }

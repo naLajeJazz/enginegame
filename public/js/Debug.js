@@ -1,33 +1,14 @@
-import{debug,debugMode,mouse,click,testi}from './controller.js'
+import{debug,debugMode,testi}from './controller.js'
+import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
+                  stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
+                  placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
+                  engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
+                  dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
+                  navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
+                  fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, 
+                  monitorStatus2, mouse, click      
+                             }from './globalVar.js' 
 
-import{shipCollidePoint,
-                  shipCollideStation,
-                  localSpdCollideMouse,
-                  stationMask,
-                  mouseCollideStation,
-                  mouseCollideLocalSpdBtn,
-                  placaSolarBtnCollideMouse,
-                  fuelBtnCollideMouse,
-                  dockBtnCollideMouse,
-                  engineBtnCollideMouse,
-                  pointCollideShip,
-                  ship,
-                  localSpdBtn,
-                  station,
-                  placaSolarBtn,
-                  fuelBtn,
-                  dockBtn,
-                  engineBtn,
-                  point,
-                  hudControlBtn,
-                  pointActive,
-                  hudControl,
-                  dockable,
-                  dock,
-                  localSpd,
-                  
-                  
-}from './script.js'
 const Debug=()=>{
 
 if (debugMode){
@@ -47,14 +28,15 @@ hudControlBtn.DrawRect("red",2)
 pointCollideShip.DrawRect("red",2)
                                     
 debug.hudMsg(debug.x,debug.y+16,"orange","19px DePixel",`    
-click: ${click}    
-pointActive: ${pointActive}    
-hudControl: ${hudControl }       
+click: ${click[0]}    
+pointActive: ${pointActive[0]}    
+hudControl: ${hudControl[0] }       
 hudControlcollide: ${hudControlBtn.collideBolean } 
-dockable:${dockable}    
-dock:${dock} 
-dockable:${dockable}    
-testi:${testi}`)
+dockable:${dockable[0]}    
+dock:${dock[0]}    
+reator:${reator[0]}
+engine:${engine[0]}
+`)
 debug.hudMsg(debug.x,debug.y+46,"orange","19px DePixel",`
 placaSolarcollidebolean:${placaSolarBtnCollideMouse.collideBolean}    
 fuelMaskMouse:${fuelBtnCollideMouse.collideBolean}    
