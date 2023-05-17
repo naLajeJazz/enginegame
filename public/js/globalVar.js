@@ -52,7 +52,8 @@ let mouseCollideStation=new Obj(mouse.x,mouse.y,mouse.w,mouse.h),
     dockable=[false],
     dock=[false],
     dockBtn=new Obj(monitorStatus2.x+300,monitorStatus2.h+216,64,64),
-    dockBtnCollideMouse=new Obj(dockBtn.x,dockBtn.y,dockBtn.w,dockBtn.h);
+    dockBtnCollideMouse=new Obj(dockBtn.x,dockBtn.y,dockBtn.w,dockBtn.h),
+     dis=  [0] ;
 
 ///point  
 let point=new Obj(ship.x,ship.y,32,32),
@@ -63,6 +64,9 @@ let point=new Obj(ship.x,ship.y,32,32),
 let station= new Obj(600,300,32,32),
     stationMask= new Obj(station.x,station.y,station.w,station.h);
 
+//rooms
+let rooms=["oRooms"];
+
     export{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
 stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
 placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
@@ -70,5 +74,5 @@ engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBt
 dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
 navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
 fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1,
- monitorStatus2, mouse, click      
+ monitorStatus2, mouse, click,dis, rooms     
            }

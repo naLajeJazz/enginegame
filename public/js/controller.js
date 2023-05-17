@@ -9,7 +9,7 @@ import{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
   dockBtn, engineBtn, point, hudControlBtn, hudControl, dockable, dock, localSpd,
   navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
   fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, 
-  monitorStatus2,mouse, pointActive, click}from './globalVar.js'
+  monitorStatus2,mouse, pointActive, click, rooms}from './globalVar.js'
 
 
 
@@ -44,7 +44,9 @@ window.addEventListener("keydown",function(event){
   debugMode=false           
   }else if (k=="p"){
     window.print()      
-    }
+    }else if (k=="1"){
+     rooms[0]="oRooms"     
+      }
  
   },false);
 
