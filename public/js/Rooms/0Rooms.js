@@ -18,16 +18,8 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
 
 
 const oRoom=()=>{
-
-                  navigation.Sprite(monitorImg,canvas.width,canvas.height); 
                   
-                  point.SpriteAnime(pointImg,xIndexPoint,yIndexPoint,point.w,point.h);
-                  
-                  station.hudMsg(station.x+32,station.y+32,"green","16px DePixel","Station 1",0.7);
-                  station.SpriteAnime(stationImg,xIndexStation,yIndexStation,station.w,station.h);
-                  
-                  ship.hudMsg(ship.x+32,ship.y+32,"green","16px DePixel","ship",0.7);
-                  ship.SpriteAnime(shipImg,xIndexShip,yIndexShip,ship.w,ship.h)
-                  ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
+                           
+             
 } 
 export default oRoom                                

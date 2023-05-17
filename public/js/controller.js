@@ -2,6 +2,10 @@
 
 import Obj from './obj.js'
 import {canvas} from './obj.js'
+import{mouseImg,btnImg,btn2Img,shipImg,stationImg,pointImg,
+  cockpitImg,spaceImg,monitorImg,hudControlBtnImg} from './Img.js'
+  import{xIndex,yIndex,xIndexShip,yIndexShip,xIndexTile,yIndexTile,
+    xIndexStation,yIndexStation,xIndexPoint,yIndexPoint}from './Animation.js'
 import{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
   stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
   placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
@@ -45,8 +49,15 @@ window.addEventListener("keydown",function(event){
   }else if (k=="p"){
     window.print()      
     }else if (k=="1"){
-     rooms[0]="oRooms"     
-      }
+      hudControl[0]=false
+     rooms[0]="navigationRoom"     
+      }else if (k=="2"){
+        hudControl[0]=true
+        rooms[0]="cockPitRoom"     
+         }else if (k=="3"){
+          hudControl[0]=true
+          rooms[0]="oRoom"     
+           }
  
   },false);
 
@@ -92,13 +103,19 @@ canvas.addEventListener('mouseup',function(){
  pointActive[0]=false
   },false);
 
-export{
-  
+
+const MousePointer=()=>{
+  if (click[0]){
+    mouse.SpriteAnime(mouseImg,0,yIndex+64,mouse.w,mouse.h)
+    }else{
+    mouse.SpriteAnime(mouseImg,0,yIndex,mouse.w,mouse.h)}
+    //
+}
+
+export default MousePointer
+
+export{  
 debug,
 debugMode,
-
-
-
 testi
- 
 }

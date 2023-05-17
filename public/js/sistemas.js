@@ -4,39 +4,14 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
                   engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
                   dockBtn, engineBtn, point, hudControlBtn, hudControl, dock, dockable,
                   navigation, cockpit, space, logisticControl, logisticControlBol, engineSpd, engine, 
-                  fuel, fuelcharge, barraFuel, reator, barrareator, monitorStatus1, monitorStatus2,mouse,pointActive, placaSolar,localSpd      
+                  fuel, fuelcharge, barraFuel, reator, barrareator, monitorStatus1, monitorStatus2,mouse,pointActive,
+                   placaSolar,localSpd, rooms, click     
                              }from './globalVar.js'
                           
   const Sistemas=()=>{
          
                   
              
-                 
-            
-          
-                  if(hudControl[0]||hudControlBtn.collideBolean){
-                                    pointActive[0]=false
-                                  }
-                                  
- ///pega a posiçao do point
-if(pointActive[0]){
-                  ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
-                  point.x=mouse.x
-                  point.y=mouse.y
-                  }
-//executa interação da colisão ship/point
-if(shipCollidePoint.collideBolean){
-                  localSpd[0]=false;
-                  engine[0]=false;
-                  }
-
-//dockable
-if(shipCollideStation.collideBolean){
-                  dockable[0]=true;
-                  }else{
-                  dockable[0]=false;
-                  }
-
 ///sistema placas solar e reator
 if(placaSolar[0]&&reator[0]<=100){
                   reator[0]+=0.1;
@@ -128,10 +103,14 @@ if(fuelcharge[0]&&fuel[0]<=100&&shipCollideStation.collideBolean){
                                     engine[0]=false
                                   };
                                   
+//dockable
+if(shipCollideStation.collideBolean){
+  dockable[0]=true;
+  }else{
+  dockable[0]=false;
+  }
 
-
-
-  } 
+  };
   
   
                                

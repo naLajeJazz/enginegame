@@ -20,14 +20,15 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
 
 
 const CockpitRoom=()=>{
-//space.Sprite(spaceImg,canvas.width,canvas.height);
+
+
 cockpit.Sprite(cockpitImg,canvas.width,canvas.height);
 
   
 monitorStatus1.Sprite(monitorImg,monitorStatus1.w,monitorStatus1.h);
 monitorStatus2.Sprite(monitorImg,monitorStatus2.w,monitorStatus2.h);
 
-
+hudControlBtn.y=canvas.height-canvas.height+16
 hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex,hudControlBtn.w,hudControlBtn.h)
 
 

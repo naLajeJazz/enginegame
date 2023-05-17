@@ -65,7 +65,7 @@ let station= new Obj(600,300,32,32),
     stationMask= new Obj(station.x,station.y,station.w,station.h);
 
 //rooms
-let rooms=["oRooms"];
+let rooms=["cockPitRoom"];
 
     export{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
 stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
