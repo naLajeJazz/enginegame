@@ -67,6 +67,17 @@ let station= new Obj(600,300,32,32),
 //rooms
 let rooms=["cockPitRoom"];
 
+//Buttons
+let mouseCollideBtn=new Obj(mouse.x,mouse.y,mouse.w,mouse.h);
+let btn=[],onOffBtn=[]
+let loteBtn=4
+for(let i=0;i<loteBtn;i++){
+ btn[i]=new Obj(300,300,64,64);
+
+ onOffBtn[i]=false
+};
+
+
     export{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
 stationMask, mouseCollideStation, mouseCollideLocalSpdBtn,
 placaSolarBtnCollideMouse, fuelBtnCollideMouse, dockBtnCollideMouse,
@@ -74,5 +85,5 @@ engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBt
 dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
 navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
 fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1,
- monitorStatus2, mouse, click,dis, rooms     
+ monitorStatus2, mouse, click,dis, rooms, btn, onOffBtn, mouseCollideBtn, loteBtn    
            }

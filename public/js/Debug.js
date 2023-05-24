@@ -6,7 +6,7 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
                   dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
                   navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
                   fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, 
-                  monitorStatus2, mouse, click, rooms      
+                  monitorStatus2, mouse, click, rooms ,mouseCollideBtn, btn     
                              }from './globalVar.js' 
 
 const Debug=()=>{
@@ -37,6 +37,7 @@ dock:${dock[0]}
 reator:${reator[0]}
 engine:${engine[0]}
 rooms:${rooms[0]}
+btncollide:${btn[0].collideBolean}
 `)
 debug.hudMsg(debug.x,debug.y+46,"orange","19px DePixel",`
 placaSolarcollidebolean:${placaSolarBtnCollideMouse.collideBolean}    

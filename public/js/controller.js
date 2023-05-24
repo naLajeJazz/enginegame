@@ -48,10 +48,10 @@ window.addEventListener("keydown",function(event){
   debugMode=false           
   }else if (k=="p"){
     window.print()      
-    }else if (k=="1"){
+    }else if (k=="2"){
       hudControl[0]=false
      rooms[0]="navigationRoom"     
-      }else if (k=="2"){
+      }else if (k=="1"){
         hudControl[0]=true
         rooms[0]="cockPitRoom"     
          }else if (k=="3"){

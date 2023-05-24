@@ -4,7 +4,8 @@ import{shipCollidePoint, shipCollideStation, localSpdCollideMouse,
        engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
        dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
        navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
-       fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, monitorStatus2,mouse
+       fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, 
+       monitorStatus1, monitorStatus2, mouse, btn, loteBtn, mouseCollideBtn
                   }from './globalVar.js'
 
 
@@ -50,7 +51,9 @@ engineBtnCollideMouse.y=engineBtn.y;
 //
 pointCollideShip.x=point.x;
 pointCollideShip.y=point.y;
-
+//
+mouseCollideBtn.x=mouse.x;
+mouseCollideBtn.y=mouse.y;
 
 ///Colisões
 
@@ -77,7 +80,12 @@ hudControlBtn.collide(mouse.x,mouse.y,mouse.w,mouse.h)
 //
 pointCollideShip.collide(ship.x,ship.y,ship.w,ship.h)
 //
-
+mouseCollideBtn.collide(btn.x,btn.y,btn.w,btn.h)
+//
+for(let i=0;i<loteBtn;i++){
+       btn[i].collide(mouse.x,mouse.y,mouse.w,mouse.h)
+       
+     };
 
 };
 

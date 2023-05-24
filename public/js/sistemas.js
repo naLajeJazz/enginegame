@@ -30,7 +30,7 @@ if(fuelcharge[0]&&fuel[0]<=100&&shipCollideStation.collideBolean){
 
 
                    if(localSpd[0]&&!placaSolar[0]&&reator[0]>=1||engine[0]&&!fuelcharge[0]&&fuel[0]>=1&&!dock[0]){
-                                    ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.4)
+                                    //ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.4)
                                    if(localSpd[0]){
                                     if(ship.x<point.x){
                                      

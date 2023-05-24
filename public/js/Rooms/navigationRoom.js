@@ -22,7 +22,7 @@ const NavigationRoom=()=>{
                            
                       
  ///pega a posiçao do point
-if(pointActive[0]){
+if(pointActive[0]&&rooms[0]=="navigationRoom"){
                   ship.DrawLine(ship.x+16,ship.y+16,point.x+16,point.y+16,"green",1,0.6)
                   point.x=mouse.x
                   point.y=mouse.y
