@@ -13,14 +13,13 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
                   engineBtnCollideMouse, pointCollideShip, ship,localSpdBtn, station, placaSolarBtn, fuelBtn,
                   dockBtn, engineBtn, point, hudControlBtn, pointActive, hudControl, dockable, dock, localSpd,
                   navigation, cockpit, space, logisticControl, logisticControlBol, engine, engineSpd, 
-                  fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, monitorStatus2,mouse, click, rooms, btn, onOffBtn   
+                  fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, monitorStatus2,mouse, click, rooms, onOffBtn   
                              }from '../globalVar.js' 
-import OnOff from '../btn.js'
+
 
 
 const oRoom=()=>{
-                  
-       OnOff()                    
+                        
              
 } 
 export default oRoom                                

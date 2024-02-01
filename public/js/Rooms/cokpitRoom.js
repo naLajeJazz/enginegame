@@ -16,6 +16,7 @@ import {shipCollidePoint, shipCollideStation, localSpdCollideMouse,
                   fuel, fuelcharge, barraFuel, placaSolar, reator, barrareator, monitorStatus1, monitorStatus2,
                   mouse, click, rooms,dis    
                              }from '../globalVar.js' 
+import Buttons from '../btn.js'
 
 
 
@@ -30,7 +31,7 @@ monitorStatus2.Sprite(monitorImg,monitorStatus2.w,monitorStatus2.h);
 
 hudControlBtn.y=canvas.height-canvas.height+16
 hudControlBtn.SpriteAnime(hudControlBtnImg,0,yIndex,hudControlBtn.w,hudControlBtn.h)
-
+Buttons()
 
 let thrustpower=0
 if(localSpd[0]){

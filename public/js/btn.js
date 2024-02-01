@@ -1,15 +1,21 @@
 
 import {btn,onOffBtn}from './globalVar.js'
 import { click } from './globalVar.js';
-                 
+import{mouseImg,btnImg,btn2Img,shipImg,stationImg,pointImg,
+  cockpitImg,spaceImg,monitorImg,hudControlBtnImg} from './Img.js'                
 
-const OnOff=()=>{
+
+const Buttons=()=>{
 
   
   btn[0].x=400;
+  btn[0].y=100;
   btn[1].x=500;
+  btn[1].y=100;
   btn[2].x=600;
+  btn[2].y=100;
   btn[3].x=700;
+  btn[3].y=100;
   
   
  
@@ -22,10 +28,12 @@ const OnOff=()=>{
                                       onOffBtn[0]=false
                                     }
                                      if(onOffBtn[0]){
-                                      btn[0].Draw("red")
-                                      //btn[0].y++
+                                    
+                                      btn[0].SpriteAnime(btn2Img,64,0,btn[0].w,btn[0].h)
+                                      
                                      }else{
-                                      btn[0].Draw("green")
+                                      
+                                      btn[0].SpriteAnime(btn2Img,0,0,btn[0].w,btn[0].h)
                                      }
 
                                      //
@@ -36,9 +44,9 @@ const OnOff=()=>{
                                       onOffBtn[1]=false
                                     }
                                      if(onOffBtn[1]){
-                                      btn[1].Draw("red")
+                                      btn[1].SpriteAnime(btn2Img,64,0,btn[1].w,btn[1].h)
                                      }else{
-                                      btn[1].Draw("green")
+                                      btn[1].SpriteAnime(btn2Img,0,0,btn[1].w,btn[1].h)
                                      }
                                      //
                                     if(btn[2].collideBolean&&click[0]&&!onOffBtn[2]){
@@ -48,9 +56,9 @@ const OnOff=()=>{
                                       onOffBtn[2]=false
                                     }
                                      if(onOffBtn[2]){
-                                      btn[2].Draw("red")
+                                      btn[2].SpriteAnime(btn2Img,64,0,btn[2].w,btn[2].h)
                                      }else{
-                                      btn[2].Draw("green")
+                                      btn[2].SpriteAnime(btn2Img,0,0,btn[2].w,btn[2].h)
                                      }
                                      //
                                     if(btn[3].collideBolean&&click[0]&&!onOffBtn[3]){
@@ -60,9 +68,9 @@ const OnOff=()=>{
                                       onOffBtn[3]=false
                                     }
                                      if(onOffBtn[3]){
-                                      btn[3].Draw("red")
+                                      btn[3].SpriteAnime(btn2Img,64,0,btn[3].w,btn[3].h)
                                      }else{
-                                      btn[3].Draw("green")
+                                      btn[3].SpriteAnime(btn2Img,0,0,btn[3].w,btn[3].h)
                                      }
                                         
 };    
@@ -70,4 +78,4 @@ const OnOff=()=>{
                                     
 
 
-export default OnOff
+export default Buttons
